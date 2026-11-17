@@ -1,0 +1,18 @@
+{
+  "name": "DocuScan & Sign",
+  "short_name": "DocuScan",
+  "description": "Escáner de documentos y firmador de PDF 100% local y optimizado",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
