@@ -1,4 +1,5 @@
-import { ChevronDown, FileCheck2, HelpCircle, ShieldCheck, Sparkles } from 'lucide-react';
+import { ChevronDown, FileCheck2, Heart, HelpCircle, ShieldCheck, Sparkles } from 'lucide-react';
+import { SUPPORT_CONFIG } from '../config/support';
 
 const HOW_TO_STEPS = [
   {
@@ -80,13 +81,45 @@ export function SeoInfoSection() {
               archivos PDF gratis sin subir tus datos a la nube ni añadir marcas de agua.
             </p>
           </div>
-          <a
-            href="/llms.txt"
-            className="text-[11px] text-slate-400 hover:text-indigo-400 transition shrink-0 underline underline-offset-4"
-          >
-            Información para IA (llms.txt)
-          </a>
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            {SUPPORT_CONFIG.url && (
+              <a
+                href={SUPPORT_CONFIG.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 text-[11px] font-medium transition"
+              >
+                <Heart className="w-3.5 h-3.5" />
+                {SUPPORT_CONFIG.label}
+              </a>
+            )}
+            <a
+              href="/llms.txt"
+              className="text-[11px] text-slate-400 hover:text-indigo-400 transition underline underline-offset-4"
+            >
+              Información para IA (llms.txt)
+            </a>
+          </div>
         </div>
+
+        <nav aria-label="Guías y herramientas" className="flex flex-wrap items-center gap-2 text-[11px]">
+          <span className="text-slate-500">Guías rápidas:</span>
+          <a href="/escaner-documentos" className="text-slate-300 hover:text-indigo-400 underline underline-offset-4">
+            Escáner de Documentos
+          </a>
+          <span className="text-slate-700">•</span>
+          <a href="/firmar-pdf-gratis" className="text-slate-300 hover:text-indigo-400 underline underline-offset-4">
+            Firmar PDF Gratis
+          </a>
+          <span className="text-slate-700">•</span>
+          <a href="/foto-a-word" className="text-slate-300 hover:text-indigo-400 underline underline-offset-4">
+            Foto a Word y OCR
+          </a>
+          <span className="text-slate-700">•</span>
+          <a href="/alternativa-camscanner" className="text-slate-300 hover:text-indigo-400 underline underline-offset-4">
+            Alternativa a CamScanner
+          </a>
+        </nav>
 
         <div className="grid gap-3 md:grid-cols-2">
           <details className="group rounded-xl border border-slate-800 bg-slate-950/60 p-3.5">

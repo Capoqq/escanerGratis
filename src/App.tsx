@@ -13,6 +13,9 @@ function getInitialTab(): ActiveTab {
   if (param === 'scanner' || param === 'signer' || param === 'vault') {
     return param;
   }
+  if (window.location.pathname.includes('firmar-pdf')) {
+    return 'signer';
+  }
   return 'scanner';
 }
 

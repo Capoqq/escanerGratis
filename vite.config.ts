@@ -10,6 +10,13 @@ export default defineConfig({
   build: {
     target: 'es2022',
     rollupOptions: {
+      input: {
+        main: 'index.html',
+        escanerDocumentos: 'escaner-documentos.html',
+        firmarPdfGratis: 'firmar-pdf-gratis.html',
+        fotoAWord: 'foto-a-word.html',
+        alternativaCamscanner: 'alternativa-camscanner.html',
+      },
       output: {
         manualChunks: {
           pdf: ['pdf-lib', 'pdfjs-dist'],

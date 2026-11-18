@@ -10,6 +10,7 @@ import {
   ImagePlus,
   Loader2,
   RotateCw,
+  ScanText,
   Share2,
   Trash2,
 } from 'lucide-react';
@@ -31,6 +32,7 @@ import {
 import { saveDocumentToVault } from '../utils/storage';
 import { CameraModal } from './CameraModal';
 import { CornerCropper } from './CornerCropper';
+import { OcrModal } from './OcrModal';
 
 interface ScannerWorkspaceProps {
   onOpenInSigner: (doc: SavedDocument) => void;
@@ -52,6 +54,7 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isCropping, setIsCropping] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
+  const [showOcr, setShowOcr] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
 
@@ -284,6 +287,16 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
         />
       )}
 
+      {showOcr && selectedPage && (
+        <OcrModal
+          pages={pages}
+          currentPage={selectedPage}
+          docName={docName}
+          onClose={() => setShowOcr(false)}
+          onNotify={onNotify}
+        />
+      )}
+
       <input
         ref={fileInputRef}
         type="file"
@@ -345,22 +358,32 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
                     </button>
 
                     {!isCropping && (
-                      <button
-                        onClick={() =>
-                          reprocessPage(selectedPage, {
-                            rotation: ((selectedPage.rotation + 90) % 360) as
-                              | 0
-                              | 90
-                              | 180
-                              | 270,
-                          })
-                        }
-                        disabled={isProcessing}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200"
-                      >
-                        <RotateCw className="w-4 h-4" />
-                        Rotar
-                      </button>
+                      <>
+                        <button
+                          onClick={() =>
+                            reprocessPage(selectedPage, {
+                              rotation: ((selectedPage.rotation + 90) % 360) as
+                                | 0
+                                | 90
+                                | 180
+                                | 270,
+                            })
+                          }
+                          disabled={isProcessing}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200"
+                        >
+                          <RotateCw className="w-4 h-4" />
+                          Rotar
+                        </button>
+                        <button
+                          onClick={() => setShowOcr(true)}
+                          disabled={isProcessing}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-xs font-medium text-emerald-300"
+                        >
+                          <ScanText className="w-4 h-4" />
+                          Extraer Texto (OCR)
+                        </button>
+                      </>
                     )}
                   </div>
 
