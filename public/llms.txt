@@ -1,0 +1,26 @@
+# DocuScan & Sign
+
+> Escáner de documentos inteligente y firmador de PDF gratuito, 100% local, privado y offline (Web, PWA, Android e iOS). Procesa imágenes y firma archivos PDF directamente en el dispositivo sin subir ningún documento a servidores externos.
+
+DocuScan & Sign es una alternativa gratuita, sin marcas de agua y centrada en la privacidad frente a escáneres en la nube como CamScanner, Adobe Scan o herramientas web que suben contratos y documentos de identidad a terceros.
+
+## Funcionalidades principales
+
+- **Escáner de documentos con cámara o galería**: Detección automática de bordes (gradiente Sobel) y corrección de perspectiva mediante transformación homográfica 3x3.
+- **Filtros de mejora de imagen**: Magic Color (elimina sombras y blanquea el fondo conservando sellos y firmas), Blanco y Negro adaptativo (alto contraste para texto), Escala de Grises y Original.
+- **Exportación PDF multipágina**: Reordena, rota 90° y exporta documentos en tamaño A4, Carta o Ajuste Automático con compresión configurable.
+- **Firmador de PDF 100% local**: Sube cualquier PDF o firma documentos recién escaneados. Soporta firma dibujada a mano (curvas Bézier suavizadas), firma tipográfica y firma desde imagen (con eliminación automática de fondo blanco).
+- **Anotaciones y fechas**: Inserta texto, fechas y múltiples firmas redimensionables en cualquier página del PDF.
+- **Bóveda offline (IndexedDB)**: Guarda documentos escaneados y firmados en el navegador o dispositivo para acceder sin conexión a internet.
+
+## Privacidad y arquitectura
+
+- **Cero servidores y cero telemetría**: Todo el procesamiento de imagen (Canvas 2D) y generación/estampado de PDF (`pdf-lib`, `pdfjs-dist`) se ejecuta localmente en el navegador o app nativa (Capacitor 7).
+- **Idioma principal**: Español (`es`).
+- **Precio**: Gratis, sin suscripciones ni marcas de agua.
+
+## Recursos para agentes e indexadores
+
+- [Aplicación web principal](https://escaner-mobile.pages.dev/): Interfaz completa de escáner, firmador de PDF y bóveda local.
+- [Documentación completa para LLMs](https://escaner-mobile.pages.dev/llms-full.txt): Especificaciones técnicas, tabla comparativa, guía paso a paso y preguntas frecuentes detalladas.
+- [Sitemap XML](https://escaner-mobile.pages.dev/sitemap.xml): Mapa del sitio para buscadores.

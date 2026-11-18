@@ -4,11 +4,20 @@ import type { SavedDocument } from './types/document';
 import { ScannerWorkspace } from './components/ScannerWorkspace';
 import { PdfSignerWorkspace } from './components/PdfSignerWorkspace';
 import { VaultWorkspace } from './components/VaultWorkspace';
+import { SeoInfoSection } from './components/SeoInfoSection';
 
 type ActiveTab = 'scanner' | 'signer' | 'vault';
 
+function getInitialTab(): ActiveTab {
+  const param = new URLSearchParams(window.location.search).get('tab');
+  if (param === 'scanner' || param === 'signer' || param === 'vault') {
+    return param;
+  }
+  return 'scanner';
+}
+
 export function App() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('scanner');
+  const [activeTab, setActiveTab] = useState<ActiveTab>(getInitialTab);
   const [docForSigner, setDocForSigner] = useState<SavedDocument | null>(null);
   const [toast, setToast] = useState<string | null>(null);
 
@@ -84,6 +93,8 @@ export function App() {
           <VaultWorkspace onOpenInSigner={handleOpenInSigner} onNotify={notify} />
         )}
       </main>
+
+      <SeoInfoSection />
 
       {/* Mobile Bottom Navigation */}
       <nav className="sm:hidden fixed bottom-0 inset-x-0 z-30 bg-slate-950/95 backdrop-blur-lg border-t border-slate-800 grid grid-cols-3 px-2 py-1.5">

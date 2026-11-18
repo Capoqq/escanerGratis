@@ -1,0 +1,39 @@
+# Robots.txt — DocuScan & Sign
+# Permitir indexación completa a buscadores tradicionales y agentes/motores de IA
+
+User-agent: *
+Allow: /
+
+# Buscadores principales
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Motores y agentes de IA (GEO / AEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://escaner-mobile.pages.dev/sitemap.xml

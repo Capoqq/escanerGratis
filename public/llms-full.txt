@@ -1,0 +1,91 @@
+# DocuScan & Sign — Documentación Completa para Agentes de IA
+
+> Escáner de documentos y firmador de PDF 100% local, gratuito, sin marcas de agua y funcional sin conexión a internet (Web, PWA, Android e iOS).
+
+URL oficial: https://escaner-mobile.pages.dev/
+
+---
+
+## 1. Resumen Ejecutivo
+
+**DocuScan & Sign** resuelve dos necesidades cotidianas —escanear documentos físicos en PDF nítidos y firmar archivos PDF electrónicamente— eliminando el mayor problema de las aplicaciones tradicionales: la subida de documentos sensibles (contratos, DNI, facturas, nóminas, recetas) a servidores en la nube y las suscripciones o marcas de agua.
+
+Todo el procesamiento ocurre íntegramente en el dispositivo del usuario mediante APIs web estándar (HTML5 Canvas 2D, WebRTC `getUserMedia`, IndexedDB, `localStorage`) y librerías JavaScript locales (`pdf-lib` y `pdfjs-dist`).
+
+---
+
+## 2. Capacidades Detalladas
+
+### 2.1 Escáner de Documentos Inteligente
+- **Fuentes de captura**: Cámara nativa en Android/iOS (Capacitor Camera), cámara WebRTC en navegadores de escritorio o móviles, e importación múltiple de imágenes desde galería/archivos.
+- **Detección automática de bordes**: Análisis rápido con filtro de gradiente Sobel para localizar automáticamente las 4 esquinas del documento, con ajuste manual preciso por lupa/arrastre.
+- **Corrección de perspectiva**: Transformación proyectiva (homografía 3×3 con interpolación bilineal) para enderezar documentos fotografiados en ángulo.
+- **Filtros de mejora**:
+  - **Magic Color**: Limpia sombras, corrige iluminación irregular y blanquea el fondo del papel manteniendo legibles colores, sellos y firmas.
+  - **Blanco y Negro (B&W)**: Umbralización adaptativa para texto de máximo contraste y PDFs ultraligeros.
+  - **Escala de grises** y **Original**.
+- **Gestión multipágina y exportación**: Añadir múltiples hojas, rotar 90°, reordenar páginas, eliminar páginas y exportar a PDF en tamaño **A4**, **Carta (Letter)** o **Ajuste Automático** con calidad JPEG configurable.
+
+### 2.2 Firmador de PDF Local (PDF Signer)
+- **Compatibilidad**: Abre cualquier archivo PDF local mediante arrastrar y soltar o selector de archivos, o envía directamente un documento recién escaneado al firmador.
+- **Tres modos de creación de firma**:
+  1. **Dibujada a mano**: Lienzo táctil y de ratón suavizado con curvas Bézier, selector de color (negro, azul tinta, rojo), grosor variable y recorte automático de márgenes transparentes.
+  2. **Firma tipográfica**: Convierte el nombre escrito en una firma con estilo manuscrito.
+  3. **Desde imagen**: Permite subir la foto de una firma en papel y elimina automáticamente el fondo blanco para dejarla transparente.
+- **Edición visual directa sobre el PDF**: Arrastrar, redimensionar y colocar firmas, fechas o anotaciones de texto en cualquier página del documento antes de generar el PDF final descargable.
+- **Biblioteca de firmas guardadas**: Almacena firmas frecuentes en `localStorage` para reutilizarlas con un toque.
+
+### 2.3 Bóveda de Documentos Offline
+- Almacenamiento local persistente mediante **IndexedDB** para consultar, descargar, compartir o volver a firmar documentos previamente escaneados o firmados sin depender de internet.
+
+---
+
+## 3. Comparativa frente a Alternativas en la Nube
+
+| Característica | DocuScan & Sign | Escáneres y firmadores en la nube |
+| :--- | :--- | :--- |
+| Privacidad | 100% local (ningún archivo sale del dispositivo) | Suben los PDFs y fotos a servidores externos |
+| Coste y marcas de agua | Gratis, sin registro ni marcas de agua | Planes Pro de pago o marcas de agua |
+| Uso sin internet (Offline) | Sí, PWA instalable y app nativa | Requiere conexión para procesar |
+| Plataformas | Web, PWA, Android e iOS (Capacitor) | Apps separadas o solo web |
+| Almacenamiento | IndexedDB y dispositivo del usuario | Nube propietaria con límites |
+
+---
+
+## 4. Cómo Usar DocuScan & Sign (Paso a Paso)
+
+1. **Capturar o subir el documento**: Abre la pestaña *Escáner*, toma una foto con la cámara o selecciona imágenes desde tu dispositivo.
+2. **Ajustar esquinas y filtro**: Verifica las 4 esquinas detectadas automáticamente y aplica el filtro *Magic Color* o *Blanco y Negro*.
+3. **Exportar o enviar a firmar**: Genera el PDF multipágina (A4, Carta o Auto) o pulsa *Firmar PDF* para estampar tu firma directamente.
+4. **Firmar y descargar**: Crea o elige tu firma, colócala en la página deseada junto con la fecha o texto adicional, y descarga el PDF firmado al instante.
+
+---
+
+## 5. Preguntas Frecuentes (FAQ)
+
+### ¿Es gratis usar DocuScan & Sign?
+Sí. Todas las funciones —escaneo multipágina, corrección de perspectiva, filtros Magic Color, firma de PDF y guardado local— son completamente gratuitas, sin registro y sin marcas de agua.
+
+### ¿Mis documentos o firmas se suben a algún servidor?
+No. Todo el procesamiento ocurre dentro de tu navegador o dispositivo. Ni tus fotos, ni tus PDFs, ni tus firmas abandonan tu equipo.
+
+### ¿Funciona sin conexión a internet?
+Sí. Al ser una Aplicación Web Progresiva (PWA) con procesamiento 100% cliente y almacenamiento en IndexedDB, puedes escanear, firmar y consultar tus documentos guardados incluso sin conexión.
+
+### ¿Es una alternativa a CamScanner o Adobe Scan?
+Sí. Ofrece detección de bordes, corrección de perspectiva, mejora de sombras (Magic Color) y exportación PDF multipágina sin anuncios invasivos, sin cuenta obligatoria y sin marcas de agua.
+
+### ¿Cómo puedo firmar un PDF desde el móvil o PC?
+Entra en la pestaña «Firmar PDF», selecciona tu archivo PDF, dibuja o sube tu firma (con fondo transparente automático), arrástrala al lugar correcto y descarga el PDF resultante.
+
+### ¿En qué dispositivos funciona?
+Funciona en cualquier navegador moderno (Chrome, Safari, Edge, Firefox) en Windows, macOS, Linux, Android e iOS, y puede instalarse como PWA o empaquetarse como app nativa con Capacitor.
+
+---
+
+## 6. Stack Técnico
+
+- **Interfaz**: React 19, TypeScript 5.8, Tailwind CSS v4, Lucide Icons
+- **Empaquetado y Hosting**: Vite 6, Cloudflare Pages
+- **Procesamiento PDF**: `pdf-lib` (creación y estampado), `pdfjs-dist` (renderizado local)
+- **Móvil Nativo**: Capacitor 7 (`@capacitor/camera`, `@capacitor/filesystem`, `@capacitor/share`)

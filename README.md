@@ -4,6 +4,8 @@
 
 **Convierte tu móvil o navegador en un escáner de documentos inteligente con detección de bordes, corrección de perspectiva y firma de PDFs 100% local y privada.**
 
+🌐 **[Usar DocuScan & Sign Gratis Online → https://escaner-mobile.pages.dev/](https://escaner-mobile.pages.dev/)**
+
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
@@ -80,8 +82,8 @@ Requisitos previos: **Node.js 20+** y **pnpm** (o npm).
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/tu-usuario/escaner-mobile.git
-cd escaner-mobile
+git clone https://github.com/Capoqq/escanerGratis.git
+cd escanerGratis
 
 # 2. Instalar dependencias
 pnpm install
