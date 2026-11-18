@@ -115,6 +115,27 @@ export const CornerCropper: React.FC<CornerCropperProps> = ({
           />
         </svg>
 
+        {/* Precision Magnifier Loupe while dragging */}
+        {activeIdx !== null && (
+          <div
+            aria-hidden="true"
+            style={{
+              left: corners[activeIdx].x < 0.5 ? 'auto' : '12px',
+              right: corners[activeIdx].x < 0.5 ? '12px' : 'auto',
+              top: '12px',
+              backgroundImage: `url(${imageSrc})`,
+              backgroundSize: '280% 280%',
+              backgroundPosition: `${corners[activeIdx].x * 100}% ${corners[activeIdx].y * 100}%`,
+            }}
+            className="pointer-events-none absolute z-20 w-24 h-24 rounded-full border-2 border-indigo-400 shadow-2xl bg-slate-950 overflow-hidden"
+          >
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="w-4 h-px bg-indigo-400/90" />
+              <span className="absolute h-4 w-px bg-indigo-400/90" />
+            </div>
+          </div>
+        )}
+
         {/* 4 Draggable Corner Handles */}
         {corners.map((pt, idx) => (
           <button

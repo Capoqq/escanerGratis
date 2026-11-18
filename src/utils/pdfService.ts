@@ -32,51 +32,137 @@ function parseHexColor(hex?: string) {
   return rgb(r, g, b);
 }
 
+export interface PdfExportOptions {
+  twoPerPage?: boolean;
+  maxSizeBytes?: number;
+}
+
+async function reencodeJpegDataUrl(
+  dataUrl: string,
+  quality: number,
+  maxDimension: number
+): Promise<string> {
+  const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const el = new Image();
+    el.onload = () => resolve(el);
+    el.onerror = () => reject(new Error('No se pudo recomprimir la imagen'));
+    el.src = dataUrl;
+  });
+
+  const w = img.naturalWidth || img.width;
+  const h = img.naturalHeight || img.height;
+  const scale = Math.min(1, maxDimension / Math.max(w, h));
+  const targetW = Math.max(1, Math.round(w * scale));
+  const targetH = Math.max(1, Math.round(h * scale));
+
+  const canvas = document.createElement('canvas');
+  canvas.width = targetW;
+  canvas.height = targetH;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return dataUrl;
+  ctx.drawImage(img, 0, 0, targetW, targetH);
+  return canvas.toDataURL('image/jpeg', quality);
+}
+
 /**
  * Generates an optimized multi-page PDF from scanned pages.
+ * Supports 2-up ID/Cédula layout and optional target max file size compression.
  */
 export async function createPdfFromScannedPages(
   pages: ScannedPage[],
-  pageSize: PdfPageSize = 'a4'
+  pageSize: PdfPageSize = 'a4',
+  options: PdfExportOptions = {}
 ): Promise<Uint8Array> {
-  const pdfDoc = await PDFDocument.create();
-  pdfDoc.setCreator('DocuScan & Sign');
-  pdfDoc.setProducer('DocuScan & Sign');
+  const { twoPerPage = false, maxSizeBytes } = options;
 
-  for (const pageItem of pages) {
-    const imgBytes = dataUrlToUint8Array(pageItem.processedDataUrl);
-    const embeddedImg = await pdfDoc.embedJpg(imgBytes);
-    const imgW = embeddedImg.width;
-    const imgH = embeddedImg.height;
+  const buildPdf = async (sourcePages: ScannedPage[]): Promise<Uint8Array> => {
+    const pdfDoc = await PDFDocument.create();
+    pdfDoc.setCreator('DocuScan & Sign');
+    pdfDoc.setProducer('DocuScan & Sign');
 
-    if (pageSize === 'auto') {
-      // Normalize width around A4 width (595pt) for consistent viewing
-      const scale = 595.28 / imgW;
-      const w = imgW * scale;
-      const h = imgH * scale;
-      const page = pdfDoc.addPage([w, h]);
-      page.drawImage(embeddedImg, { x: 0, y: 0, width: w, height: h });
-    } else {
-      const [baseW, baseH] = PAGE_DIMENSIONS[pageSize];
-      const isLandscape = imgW > imgH;
-      const pageW = isLandscape ? baseH : baseW;
-      const pageH = isLandscape ? baseW : baseH;
-      const page = pdfDoc.addPage([pageW, pageH]);
+    if (twoPerPage) {
+      const [pageW, pageH] = PAGE_DIMENSIONS[pageSize === 'auto' ? 'a4' : pageSize];
+      const margin = 28;
+      const gap = 20;
+      const slotW = pageW - margin * 2;
+      const slotH = (pageH - margin * 2 - gap) / 2;
 
-      const margin = 18;
-      const maxW = pageW - margin * 2;
-      const maxH = pageH - margin * 2;
-      const scale = Math.min(maxW / imgW, maxH / imgH);
-      const drawW = imgW * scale;
-      const drawH = imgH * scale;
-      const x = (pageW - drawW) / 2;
-      const y = (pageH - drawH) / 2;
+      for (let i = 0; i < sourcePages.length; i += 2) {
+        const page = pdfDoc.addPage([pageW, pageH]);
+        const pair = sourcePages.slice(i, i + 2);
 
-      page.drawImage(embeddedImg, { x, y, width: drawW, height: drawH });
+        for (let slotIdx = 0; slotIdx < pair.length; slotIdx++) {
+          const imgBytes = dataUrlToUint8Array(pair[slotIdx].processedDataUrl);
+          const embeddedImg = await pdfDoc.embedJpg(imgBytes);
+          const scale = Math.min(slotW / embeddedImg.width, slotH / embeddedImg.height);
+          const drawW = embeddedImg.width * scale;
+          const drawH = embeddedImg.height * scale;
+          const x = (pageW - drawW) / 2;
+          const slotBottomY = slotIdx === 0 ? pageH - margin - slotH : margin;
+          const y = slotBottomY + (slotH - drawH) / 2;
+          page.drawImage(embeddedImg, { x, y, width: drawW, height: drawH });
+        }
+      }
+      return pdfDoc.save({ useObjectStreams: true });
+    }
+
+    for (const pageItem of sourcePages) {
+      const imgBytes = dataUrlToUint8Array(pageItem.processedDataUrl);
+      const embeddedImg = await pdfDoc.embedJpg(imgBytes);
+      const imgW = embeddedImg.width;
+      const imgH = embeddedImg.height;
+
+      if (pageSize === 'auto') {
+        const scale = 595.28 / imgW;
+        const w = imgW * scale;
+        const h = imgH * scale;
+        const page = pdfDoc.addPage([w, h]);
+        page.drawImage(embeddedImg, { x: 0, y: 0, width: w, height: h });
+      } else {
+        const [baseW, baseH] = PAGE_DIMENSIONS[pageSize];
+        const isLandscape = imgW > imgH;
+        const pageW = isLandscape ? baseH : baseW;
+        const pageH = isLandscape ? baseW : baseH;
+        const page = pdfDoc.addPage([pageW, pageH]);
+
+        const margin = 18;
+        const maxW = pageW - margin * 2;
+        const maxH = pageH - margin * 2;
+        const scale = Math.min(maxW / imgW, maxH / imgH);
+        const drawW = imgW * scale;
+        const drawH = imgH * scale;
+        const x = (pageW - drawW) / 2;
+        const y = (pageH - drawH) / 2;
+
+        page.drawImage(embeddedImg, { x, y, width: drawW, height: drawH });
+      }
+    }
+
+    return pdfDoc.save({ useObjectStreams: true });
+  };
+
+  let pdfBytes = await buildPdf(pages);
+
+  if (maxSizeBytes && pdfBytes.byteLength > maxSizeBytes) {
+    const presets: [number, number][] = [
+      [0.72, 1600],
+      [0.58, 1300],
+      [0.45, 1050],
+      [0.35, 850],
+    ];
+    for (const [quality, maxDim] of presets) {
+      const compressedPages = await Promise.all(
+        pages.map(async (p) => ({
+          ...p,
+          processedDataUrl: await reencodeJpegDataUrl(p.processedDataUrl, quality, maxDim),
+        }))
+      );
+      pdfBytes = await buildPdf(compressedPages);
+      if (pdfBytes.byteLength <= maxSizeBytes) break;
     }
   }
 
-  return pdfDoc.save({ useObjectStreams: true });
+  return pdfBytes;
 }
 
 /**

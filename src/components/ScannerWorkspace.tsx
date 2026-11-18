@@ -21,7 +21,7 @@ import {
   imageToCanvas,
   processScannedPage,
 } from '../utils/imageProcessor';
-import { captureNativePhoto, isNativePlatform, saveOrShareFile, saveOrSharePdf } from '../utils/platform';
+import { captureNativePhoto, formatBytes, isNativePlatform, saveOrShareFile, saveOrSharePdf } from '../utils/platform';
 import { createPdfFromScannedPages, generatePdfThumbnail } from '../utils/pdfService';
 import {
   createDocxFromScannedPages,
@@ -64,6 +64,8 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
   const [pageSize, setPageSize] = useState<PdfPageSize>('a4');
   const [jpegQuality, setJpegQuality] = useState<number>(0.84);
   const [exportFormat, setExportFormat] = useState<ExportFormat>('pdf');
+  const [twoPerPage, setTwoPerPage] = useState<boolean>(false);
+  const [targetMaxSizeKb, setTargetMaxSizeKb] = useState<number>(0);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -212,7 +214,10 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
       const cleanName = docName.trim() || `Escaneo_${Date.now()}`;
 
       if (action === 'sign' || exportFormat === 'pdf') {
-        const pdfBytes = await createPdfFromScannedPages(pages, pageSize);
+        const pdfBytes = await createPdfFromScannedPages(pages, pageSize, {
+          twoPerPage,
+          maxSizeBytes: targetMaxSizeKb > 0 ? targetMaxSizeKb * 1024 : undefined,
+        });
         const buffer = pdfBytes.buffer.slice(
           pdfBytes.byteOffset,
           pdfBytes.byteOffset + pdfBytes.byteLength
@@ -223,7 +228,7 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
           id: crypto.randomUUID(),
           name: cleanName,
           type: 'scan',
-          pageCount: pages.length,
+          pageCount: twoPerPage ? Math.ceil(pages.length / 2) : pages.length,
           sizeBytes: pdfBytes.byteLength,
           pdfBytes: buffer,
           thumbnailDataUrl: thumb,
@@ -238,7 +243,7 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
           onOpenInSigner(savedDoc);
         } else {
           await saveOrSharePdf(pdfBytes, cleanName, action === 'share');
-          onNotify('PDF optimizado y guardado en Documentos.');
+          onNotify(`PDF (${formatBytes(pdfBytes.byteLength)}) guardado en Documentos.`);
         }
         return;
       }
@@ -599,6 +604,37 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
                   </select>
                 </div>
               </div>
+
+              {exportFormat === 'pdf' && (
+                <div className="space-y-2.5 pt-0.5">
+                  <div className="space-y-1">
+                    <label className="text-xs text-slate-400">Peso máximo del PDF (trámites)</label>
+                    <select
+                      value={targetMaxSizeKb}
+                      onChange={(e) => setTargetMaxSizeKb(Number(e.target.value))}
+                      className="w-full px-2.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                    >
+                      <option value={0}>Sin límite (calidad elegida)</option>
+                      <option value={500}>Reducir a menos de 500 KB</option>
+                      <option value={1024}>Reducir a menos de 1 MB</option>
+                      <option value={2048}>Reducir a menos de 2 MB</option>
+                    </select>
+                  </div>
+
+                  <label className="flex items-center gap-2.5 rounded-xl bg-slate-950/70 border border-slate-800 px-3 py-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={twoPerPage}
+                      onChange={(e) => setTwoPerPage(e.target.checked)}
+                      className="rounded border-slate-600 bg-slate-900 text-indigo-500 focus:ring-indigo-500"
+                    />
+                    <span className="text-xs text-slate-200">
+                      Modo Cédula / DNI{' '}
+                      <span className="text-slate-400">(2 caras en 1 hoja)</span>
+                    </span>
+                  </label>
+                </div>
+              )}
 
               <div className="flex flex-col gap-2 pt-1">
                 <button
