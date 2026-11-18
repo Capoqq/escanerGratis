@@ -40,38 +40,37 @@ function uint8ArrayToBase64(bytes: Uint8Array): string {
 }
 
 /**
- * Downloads or shares a PDF file across Web, PWA, Android, and iOS.
+ * Downloads or shares any binary file across Web, PWA, Android, and iOS.
  */
-export async function saveOrSharePdf(
+export async function saveOrShareFile(
   bytes: Uint8Array,
   filename: string,
+  mimeType: string,
   preferShare = false
 ): Promise<void> {
-  const safeName = filename.endsWith('.pdf') ? filename : `${filename}.pdf`;
-
   if (isNativePlatform()) {
     const base64Data = uint8ArrayToBase64(bytes);
     const saved = await Filesystem.writeFile({
-      path: safeName,
+      path: filename,
       data: base64Data,
       directory: Directory.Cache,
     });
     await Share.share({
-      title: safeName,
+      title: filename,
       url: saved.uri,
-      dialogTitle: 'Compartir o guardar PDF',
+      dialogTitle: 'Compartir o guardar documento',
     });
     return;
   }
 
   // Web / PWA
-  const blob = new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' });
+  const blob = new Blob([bytes.buffer as ArrayBuffer], { type: mimeType });
   if (preferShare && typeof navigator !== 'undefined' && navigator.share) {
     try {
-      const file = new File([blob], safeName, { type: 'application/pdf' });
+      const file = new File([blob], filename, { type: mimeType });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
-          title: safeName,
+          title: filename,
           files: [file],
         });
         return;
@@ -84,11 +83,23 @@ export async function saveOrSharePdf(
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = safeName;
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 10_000);
+}
+
+/**
+ * Downloads or shares a PDF file across Web, PWA, Android, and iOS.
+ */
+export async function saveOrSharePdf(
+  bytes: Uint8Array,
+  filename: string,
+  preferShare = false
+): Promise<void> {
+  const safeName = filename.endsWith('.pdf') ? filename : `${filename}.pdf`;
+  return saveOrShareFile(bytes, safeName, 'application/pdf', preferShare);
 }
 
 export function formatBytes(bytes: number): string {

@@ -8,7 +8,7 @@ DocuScan & Sign es una alternativa gratuita, sin marcas de agua y centrada en la
 
 - **Escáner de documentos con cámara o galería**: Detección automática de bordes (gradiente Sobel) y corrección de perspectiva mediante transformación homográfica 3x3.
 - **Filtros de mejora de imagen**: Magic Color (elimina sombras y blanquea el fondo conservando sellos y firmas), Blanco y Negro adaptativo (alto contraste para texto), Escala de Grises y Original.
-- **Exportación PDF multipágina**: Reordena, rota 90° y exporta documentos en tamaño A4, Carta o Ajuste Automático con compresión configurable.
+- **Exportación multiformato sin publicidad**: Reordena, rota 90° y exporta documentos en **PDF** (A4, Carta o Ajuste Automático), **Word (.docx)**, **JPG**, **PNG** (con empaquetado ZIP automático en multipágina) o **HTML imprimible**.
 - **Firmador de PDF 100% local**: Sube cualquier PDF o firma documentos recién escaneados. Soporta firma dibujada a mano (curvas Bézier suavizadas), firma tipográfica y firma desde imagen (con eliminación automática de fondo blanco).
 - **Anotaciones y fechas**: Inserta texto, fechas y múltiples firmas redimensionables en cualquier página del PDF.
 - **Bóveda offline (IndexedDB)**: Guarda documentos escaneados y firmados en el navegador o dispositivo para acceder sin conexión a internet.

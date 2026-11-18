@@ -129,8 +129,8 @@ export function SeoInfoSection() {
                 tipográfica o desde foto con eliminación automática de fondo blanco.
               </li>
               <li>
-                <strong className="text-slate-200">Bóveda local (IndexedDB):</strong> guarda y
-                reutiliza tus documentos y firmas sin conexión a internet.
+                <strong className="text-slate-200">Exportación multiformato sin publicidad:</strong>{' '}
+                convierte tus escaneos a PDF, Word (.docx), JPG, PNG o HTML imprimible sin marcas de agua.
               </li>
             </ul>
           </details>

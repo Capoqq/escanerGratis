@@ -20,8 +20,14 @@ import {
   imageToCanvas,
   processScannedPage,
 } from '../utils/imageProcessor';
-import { captureNativePhoto, isNativePlatform, saveOrSharePdf } from '../utils/platform';
+import { captureNativePhoto, isNativePlatform, saveOrShareFile, saveOrSharePdf } from '../utils/platform';
 import { createPdfFromScannedPages, generatePdfThumbnail } from '../utils/pdfService';
+import {
+  createDocxFromScannedPages,
+  createHtmlFromScannedPages,
+  createImagesExport,
+  type ExportFormat,
+} from '../utils/documentExporter';
 import { saveDocumentToVault } from '../utils/storage';
 import { CameraModal } from './CameraModal';
 import { CornerCropper } from './CornerCropper';
@@ -54,6 +60,7 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
   );
   const [pageSize, setPageSize] = useState<PdfPageSize>('a4');
   const [jpegQuality, setJpegQuality] = useState<number>(0.84);
+  const [exportFormat, setExportFormat] = useState<ExportFormat>('pdf');
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -195,42 +202,71 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
     });
   };
 
-  const buildAndSavePdf = async (action: 'download' | 'share' | 'sign') => {
+  const buildAndExport = async (action: 'download' | 'share' | 'sign') => {
     if (pages.length === 0) return;
     setIsExporting(true);
     try {
-      const pdfBytes = await createPdfFromScannedPages(pages, pageSize);
-      const buffer = pdfBytes.buffer.slice(
-        pdfBytes.byteOffset,
-        pdfBytes.byteOffset + pdfBytes.byteLength
-      ) as ArrayBuffer;
-      const thumb = await generatePdfThumbnail(buffer);
       const cleanName = docName.trim() || `Escaneo_${Date.now()}`;
 
-      const savedDoc: SavedDocument = {
-        id: crypto.randomUUID(),
-        name: cleanName,
-        type: 'scan',
-        pageCount: pages.length,
-        sizeBytes: pdfBytes.byteLength,
-        pdfBytes: buffer,
-        thumbnailDataUrl: thumb,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      };
+      if (action === 'sign' || exportFormat === 'pdf') {
+        const pdfBytes = await createPdfFromScannedPages(pages, pageSize);
+        const buffer = pdfBytes.buffer.slice(
+          pdfBytes.byteOffset,
+          pdfBytes.byteOffset + pdfBytes.byteLength
+        ) as ArrayBuffer;
+        const thumb = await generatePdfThumbnail(buffer);
 
-      await saveDocumentToVault(savedDoc);
+        const savedDoc: SavedDocument = {
+          id: crypto.randomUUID(),
+          name: cleanName,
+          type: 'scan',
+          pageCount: pages.length,
+          sizeBytes: pdfBytes.byteLength,
+          pdfBytes: buffer,
+          thumbnailDataUrl: thumb,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+        };
 
-      if (action === 'sign') {
-        onNotify('PDF guardado. Abriendo en el firmador...');
-        onOpenInSigner(savedDoc);
-      } else {
-        await saveOrSharePdf(pdfBytes, cleanName, action === 'share');
-        onNotify('PDF optimizado y guardado en Documentos.');
+        await saveDocumentToVault(savedDoc);
+
+        if (action === 'sign') {
+          onNotify('PDF guardado. Abriendo en el firmador...');
+          onOpenInSigner(savedDoc);
+        } else {
+          await saveOrSharePdf(pdfBytes, cleanName, action === 'share');
+          onNotify('PDF optimizado y guardado en Documentos.');
+        }
+        return;
+      }
+
+      const preferShare = action === 'share';
+
+      if (exportFormat === 'docx') {
+        const docxBytes = createDocxFromScannedPages(pages, pageSize);
+        await saveOrShareFile(
+          docxBytes,
+          `${cleanName}.docx`,
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          preferShare
+        );
+        onNotify('Documento Word (.docx) exportado sin marcas de agua.');
+      } else if (exportFormat === 'jpg' || exportFormat === 'png') {
+        const exported = await createImagesExport(pages, cleanName, exportFormat);
+        await saveOrShareFile(exported.bytes, exported.filename, exported.mimeType, preferShare);
+        onNotify(
+          pages.length > 1
+            ? `Imágenes ${exportFormat.toUpperCase()} empaquetadas en ZIP.`
+            : `Imagen ${exportFormat.toUpperCase()} descargada.`
+        );
+      } else if (exportFormat === 'html') {
+        const htmlBytes = createHtmlFromScannedPages(pages, cleanName);
+        await saveOrShareFile(htmlBytes, `${cleanName}.html`, 'text/html; charset=utf-8', preferShare);
+        onNotify('Documento HTML imprimible exportado.');
       }
     } catch (err) {
       console.error(err);
-      onNotify('Error al generar el PDF.');
+      onNotify('Error al exportar el documento.');
     } finally {
       setIsExporting(false);
     }
@@ -486,7 +522,7 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
 
             {/* Export Options */}
             <div className="rounded-2xl bg-slate-900/80 border border-slate-800 p-4 space-y-3.5">
-              <h3 className="text-sm font-semibold text-white">Exportar PDF</h3>
+              <h3 className="text-sm font-semibold text-white">Exportar y Convertir</h3>
 
               <div className="space-y-1">
                 <label className="text-xs text-slate-400">Nombre del documento</label>
@@ -496,6 +532,21 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
                   onChange={(e) => setDocName(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500"
                 />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs text-slate-400">Formato de salida</label>
+                <select
+                  value={exportFormat}
+                  onChange={(e) => setExportFormat(e.target.value as ExportFormat)}
+                  className="w-full px-2.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                >
+                  <option value="pdf">PDF (.pdf) — Multipágina</option>
+                  <option value="docx">Word (.docx) — Documento editable</option>
+                  <option value="jpg">Imagen JPG (.jpg / .zip)</option>
+                  <option value="png">Imagen PNG (.png / .zip)</option>
+                  <option value="html">Web / Imprimible (.html)</option>
+                </select>
               </div>
 
               <div className="grid grid-cols-2 gap-2.5">
@@ -528,7 +579,7 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
 
               <div className="flex flex-col gap-2 pt-1">
                 <button
-                  onClick={() => buildAndSavePdf('download')}
+                  onClick={() => buildAndExport('download')}
                   disabled={isExporting || isProcessing}
                   className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-semibold text-sm transition"
                 >
@@ -537,12 +588,14 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
                   ) : (
                     <Download className="w-4 h-4" />
                   )}
-                  Guardar y Descargar PDF
+                  {exportFormat === 'pdf'
+                    ? 'Guardar y Descargar PDF'
+                    : `Exportar como ${exportFormat.toUpperCase()}`}
                 </button>
 
                 <div className="grid grid-cols-2 gap-2">
                   <button
-                    onClick={() => buildAndSavePdf('share')}
+                    onClick={() => buildAndExport('share')}
                     disabled={isExporting || isProcessing}
                     className="inline-flex items-center justify-center gap-1.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium"
                   >
@@ -550,7 +603,7 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
                     Compartir
                   </button>
                   <button
-                    onClick={() => buildAndSavePdf('sign')}
+                    onClick={() => buildAndExport('sign')}
                     disabled={isExporting || isProcessing}
                     className="inline-flex items-center justify-center gap-1.5 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-medium"
                   >
