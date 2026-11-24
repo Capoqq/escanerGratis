@@ -104,8 +104,8 @@ function getPageHero(route: RouteContext, activeTab: ActiveTab): { title: string
 
 function WorkspaceFallback({ label }: { label: string }) {
   return (
-    <div className="rounded-3xl bg-slate-900/70 border border-slate-800 p-12 flex flex-col items-center justify-center gap-3 text-slate-300">
-      <Loader2 className="w-6 h-6 animate-spin text-indigo-400" />
+    <div className="rounded-3xl bg-[#111827] border border-[rgba(148,163,184,0.18)] p-12 flex flex-col items-center justify-center gap-3 text-[#cbd5e1]">
+      <Loader2 className="w-6 h-6 animate-spin text-[#38bdf8]" />
       <p className="text-sm font-medium">{label}</p>
     </div>
   );
@@ -139,39 +139,50 @@ export function App() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 pb-20 sm:pb-6">
+    <div className="min-h-screen flex flex-col bg-[#0b1120] text-[#f8fafc] pb-24 sm:pb-6">
       {/* Header */}
-      <header className="sticky top-0 z-30 bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80">
+      <header className="sticky top-0 z-30 bg-[#0b1120]/90 backdrop-blur-md border-b border-[rgba(148,163,184,0.18)]">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <img src="/icon.svg" alt="DocuScan & Sign" className="w-9 h-9 rounded-xl shadow" />
+            <img
+              src="/icon.svg"
+              alt="DocuScan & Sign"
+              width={36}
+              height={36}
+              className="w-9 h-9 rounded-xl border border-[rgba(148,163,184,0.18)] shadow-sm"
+            />
             <div>
-              <span className="block text-base font-bold text-white leading-tight">
+              <span className="block text-base font-bold text-[#f8fafc] leading-tight">
                 DocuScan &amp; Sign
               </span>
-              <p className="text-[11px] text-slate-400 flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3 text-emerald-400" />
+              <p className="text-[11px] text-[#94a3b8] flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#10b981] shrink-0" />
                 100% local en tu dispositivo
               </p>
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden sm:flex items-center gap-1.5 bg-slate-900 p-1 rounded-2xl border border-slate-800">
+          <nav
+            aria-label="Navegación principal"
+            className="hidden sm:flex items-center gap-1.5 bg-[#111827] p-1 rounded-2xl border border-[rgba(148,163,184,0.18)]"
+          >
             {navItems.map((item) => {
               const Icon = item.icon;
               const active = activeTab === item.id;
               return (
                 <button
                   key={item.id}
+                  type="button"
                   onClick={() => setActiveTab(item.id)}
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition ${
+                  aria-current={active ? 'page' : undefined}
+                  className={`min-h-[44px] min-w-[44px] inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition ${
                     active
-                      ? 'bg-indigo-600 text-white shadow'
-                      : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                      ? 'bg-[#38bdf8] text-[#062134] shadow-sm'
+                      : 'text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#1e293b]'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-4 h-4 shrink-0" />
                   {item.label}
                 </button>
               );
@@ -187,27 +198,27 @@ export function App() {
           aria-label="Resumen de la herramienta"
           className={`rounded-2xl border p-4 sm:px-5 sm:py-4 flex flex-col gap-3 ${
             isPhotoToWord
-              ? 'bg-emerald-950/25 border-emerald-500/30'
-              : 'bg-slate-900/50 border-slate-800/80'
+              ? 'bg-[#111827] border-[#10b981]/40'
+              : 'bg-[#111827] border-[rgba(148,163,184,0.18)]'
           }`}
         >
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-            <div className="space-y-1">
-              <h1 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+            <div className="space-y-1.5">
+              <h1 className="font-bold text-[#f8fafc] tracking-tight">
                 {hero.title}
               </h1>
-              <p className="text-xs sm:text-sm text-slate-300 max-w-3xl leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#cbd5e1] max-w-[68ch] leading-relaxed">
                 {hero.subtitle}
               </p>
             </div>
 
             {isPhotoToWord && (
               <div className="flex flex-wrap items-center gap-2 shrink-0">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-medium text-slate-200">
-                  <Camera className="w-3.5 h-3.5 text-indigo-400" />
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#1e293b] border border-[rgba(148,163,184,0.18)] text-[11px] font-medium text-[#f8fafc]">
+                  <Camera className="w-3.5 h-3.5 text-[#38bdf8]" />
                   1. Sube o escanea foto
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/40 text-[11px] font-semibold text-emerald-300">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#10b981]/15 border border-[#10b981]/40 text-[11px] font-semibold text-[#34d399]">
                   <ScanText className="w-3.5 h-3.5" />
                   2. OCR → Word (.docx) editable
                 </span>
@@ -215,7 +226,7 @@ export function App() {
                   <button
                     type="button"
                     onClick={() => setActiveTab('scanner')}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold text-white transition"
+                    className="min-h-[44px] inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#38bdf8] hover:bg-[#7dd3fc] text-xs font-semibold text-[#062134] transition"
                   >
                     <FileText className="w-3.5 h-3.5" />
                     Ir al Escáner OCR
@@ -248,19 +259,26 @@ export function App() {
       <SeoInfoSection />
 
       {/* Mobile Bottom Navigation */}
-      <nav className="sm:hidden fixed bottom-0 inset-x-0 z-30 bg-slate-950/95 backdrop-blur-lg border-t border-slate-800 grid grid-cols-3 px-2 py-1.5">
+      <nav
+        aria-label="Navegación móvil"
+        className="sm:hidden fixed bottom-0 inset-x-0 z-30 bg-[#0b1120]/95 backdrop-blur-lg border-t border-[rgba(148,163,184,0.18)] grid grid-cols-3 gap-1 px-2 py-1.5"
+      >
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = activeTab === item.id;
           return (
             <button
               key={item.id}
+              type="button"
               onClick={() => setActiveTab(item.id)}
-              className={`flex flex-col items-center justify-center gap-1 py-1.5 rounded-xl text-[11px] font-medium transition ${
-                active ? 'text-indigo-400' : 'text-slate-400'
+              aria-current={active ? 'page' : undefined}
+              className={`min-h-[48px] min-w-[44px] flex flex-col items-center justify-center gap-1 py-1.5 px-2 rounded-xl text-[11px] font-semibold transition ${
+                active
+                  ? 'bg-[#1e293b] text-[#38bdf8]'
+                  : 'text-[#94a3b8] hover:text-[#f8fafc]'
               }`}
             >
-              <Icon className={`w-5 h-5 ${active ? 'scale-110' : ''} transition-transform`} />
+              <Icon className={`w-5 h-5 ${active ? 'scale-105' : ''} transition-transform`} />
               <span>{item.label}</span>
             </button>
           );
@@ -269,7 +287,11 @@ export function App() {
 
       {/* Toast Notification */}
       {toast && (
-        <div className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-medium text-white shadow-2xl">
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-24 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl bg-[#1e293b] border border-[rgba(148,163,184,0.28)] text-xs font-medium text-[#f8fafc] shadow-2xl"
+        >
           {toast}
         </div>
       )}

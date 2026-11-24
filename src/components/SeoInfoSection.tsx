@@ -68,16 +68,16 @@ export function SeoInfoSection() {
       aria-label="Información sobre DocuScan & Sign y preguntas frecuentes"
       className="max-w-6xl w-full mx-auto px-4 mt-8 mb-6"
     >
-      <div className="rounded-2xl border border-slate-800/80 bg-slate-900/50 p-4 sm:p-6 space-y-4">
+      <div className="rounded-2xl border border-[rgba(148,163,184,0.18)] bg-[#111827] p-4 sm:p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 className="text-sm sm:text-base font-semibold text-white flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+            <h2 className="text-sm sm:text-base font-semibold text-[#f8fafc] flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-[#10b981] shrink-0" />
               Escáner de Documentos y Firmador de PDF 100% Local y Privado
             </h2>
-            <p className="text-xs text-slate-400 mt-1 max-w-3xl leading-relaxed">
+            <p className="text-xs text-[#94a3b8] mt-1 max-w-[68ch] leading-relaxed">
               Escanea documentos con tu cámara, corrige la perspectiva automáticamente, mejora la
-              legibilidad con <strong className="text-slate-300">Magic Color</strong> y firma
+              legibilidad con <strong className="text-[#cbd5e1]">Magic Color</strong> y firma
               archivos PDF gratis sin subir tus datos a la nube ni añadir marcas de agua.
             </p>
           </div>
@@ -87,101 +87,115 @@ export function SeoInfoSection() {
                 href={SUPPORT_CONFIG.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 text-[11px] font-medium transition"
+                className="min-h-[44px] inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 text-xs font-medium transition"
               >
                 <Heart className="w-3.5 h-3.5" />
                 {SUPPORT_CONFIG.label}
               </a>
             )}
             <a
-              href="/llms.txt"
-              className="text-[11px] text-slate-400 hover:text-indigo-400 transition underline underline-offset-4"
+              href="https://studio-ai-hub.pages.dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="min-h-[44px] inline-flex items-center px-3 py-2 rounded-xl bg-[#1e293b]/70 hover:bg-[#1e293b] border border-[rgba(148,163,184,0.18)] text-xs font-medium text-[#cbd5e1] hover:text-[#38bdf8] transition"
             >
-              Información para IA (llms.txt)
+              Parte de Studio AI Hub
             </a>
           </div>
         </div>
 
-        <nav aria-label="Guías y herramientas" className="flex flex-wrap items-center gap-2 text-[11px]">
-          <span className="text-slate-500">Guías rápidas:</span>
-          <a href="/escaner-documentos" className="text-slate-300 hover:text-indigo-400 underline underline-offset-4">
+        <nav aria-label="Guías y herramientas" className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+          <span className="text-[#94a3b8]">Guías rápidas:</span>
+          <a
+            href="/escaner-documentos"
+            className="min-h-[44px] inline-flex items-center text-[#cbd5e1] hover:text-[#38bdf8] underline underline-offset-4 transition"
+          >
             Escáner de Documentos
           </a>
-          <span className="text-slate-700">•</span>
-          <a href="/firmar-pdf-gratis" className="text-slate-300 hover:text-indigo-400 underline underline-offset-4">
+          <span aria-hidden="true" className="text-slate-600">•</span>
+          <a
+            href="/firmar-pdf-gratis"
+            className="min-h-[44px] inline-flex items-center text-[#cbd5e1] hover:text-[#38bdf8] underline underline-offset-4 transition"
+          >
             Firmar PDF Gratis
           </a>
-          <span className="text-slate-700">•</span>
-          <a href="/foto-a-word" className="text-slate-300 hover:text-indigo-400 underline underline-offset-4">
+          <span aria-hidden="true" className="text-slate-600">•</span>
+          <a
+            href="/foto-a-word"
+            className="min-h-[44px] inline-flex items-center text-[#cbd5e1] hover:text-[#38bdf8] underline underline-offset-4 transition"
+          >
             Foto a Word y OCR
           </a>
-          <span className="text-slate-700">•</span>
-          <a href="/alternativa-camscanner" className="text-slate-300 hover:text-indigo-400 underline underline-offset-4">
+          <span aria-hidden="true" className="text-slate-600">•</span>
+          <a
+            href="/alternativa-camscanner"
+            className="min-h-[44px] inline-flex items-center text-[#cbd5e1] hover:text-[#38bdf8] underline underline-offset-4 transition"
+          >
             Alternativa a CamScanner
           </a>
         </nav>
 
         <div className="grid gap-3 md:grid-cols-2">
-          <details className="group rounded-xl border border-slate-800 bg-slate-950/60 p-3.5">
-            <summary className="flex items-center justify-between cursor-pointer list-none text-xs sm:text-sm font-medium text-slate-200">
+          <details className="group rounded-xl border border-[rgba(148,163,184,0.18)] bg-[#1e293b]/55 p-3.5">
+            <summary className="flex items-center justify-between cursor-pointer list-none min-h-[44px] text-xs sm:text-sm font-medium text-[#f8fafc]">
               <span className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-indigo-400" />
+                <Sparkles className="w-4 h-4 text-[#38bdf8] shrink-0" />
                 Cómo escanear y firmar un PDF paso a paso
               </span>
-              <ChevronDown className="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" />
+              <ChevronDown className="w-4 h-4 text-[#94a3b8] transition-transform group-open:rotate-180" />
             </summary>
-            <ol className="mt-3 space-y-2.5 text-xs text-slate-400 border-t border-slate-800/80 pt-3">
+            <ol className="mt-3 space-y-2.5 text-xs text-[#94a3b8] border-t border-[rgba(148,163,184,0.18)] pt-3">
               {HOW_TO_STEPS.map((step) => (
                 <li key={step.title}>
-                  <h3 className="font-semibold text-slate-200">{step.title}</h3>
+                  <h3 className="text-xs font-semibold text-[#f8fafc]">{step.title}</h3>
                   <p className="mt-0.5 leading-relaxed">{step.description}</p>
                 </li>
               ))}
             </ol>
           </details>
 
-          <details className="group rounded-xl border border-slate-800 bg-slate-950/60 p-3.5">
-            <summary className="flex items-center justify-between cursor-pointer list-none text-xs sm:text-sm font-medium text-slate-200">
+          <details className="group rounded-xl border border-[rgba(148,163,184,0.18)] bg-[#1e293b]/55 p-3.5">
+            <summary className="flex items-center justify-between cursor-pointer list-none min-h-[44px] text-xs sm:text-sm font-medium text-[#f8fafc]">
               <span className="flex items-center gap-2">
-                <FileCheck2 className="w-4 h-4 text-sky-400" />
+                <FileCheck2 className="w-4 h-4 text-[#38bdf8] shrink-0" />
                 Características principales sin servidores
               </span>
-              <ChevronDown className="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" />
+              <ChevronDown className="w-4 h-4 text-[#94a3b8] transition-transform group-open:rotate-180" />
             </summary>
-            <ul className="mt-3 space-y-2 text-xs text-slate-400 border-t border-slate-800/80 pt-3 list-disc list-inside">
+            <ul className="mt-3 space-y-2 text-xs text-[#94a3b8] border-t border-[rgba(148,163,184,0.18)] pt-3 list-disc list-inside">
               <li>
-                <strong className="text-slate-200">Detección de bordes y perspectiva:</strong>{' '}
+                <strong className="text-[#f8fafc]">Detección de bordes y perspectiva:</strong>{' '}
                 recorte inteligente con homografía 3×3 para enderezar hojas en ángulo.
               </li>
               <li>
-                <strong className="text-slate-200">Filtros profesionales:</strong> Magic Color,
+                <strong className="text-[#f8fafc]">Filtros profesionales:</strong> Magic Color,
                 Blanco y Negro adaptativo, Escala de Grises y Original.
               </li>
               <li>
-                <strong className="text-slate-200">Firmador PDF completo:</strong> firma dibujada,
+                <strong className="text-[#f8fafc]">Firmador PDF completo:</strong> firma dibujada,
                 tipográfica o desde foto con eliminación automática de fondo blanco.
               </li>
               <li>
-                <strong className="text-slate-200">Exportación multiformato sin publicidad:</strong>{' '}
+                <strong className="text-[#f8fafc]">Exportación multiformato sin publicidad:</strong>{' '}
                 convierte tus escaneos a PDF, Word (.docx), JPG, PNG o HTML imprimible sin marcas de agua.
               </li>
             </ul>
           </details>
         </div>
 
-        <details className="group rounded-xl border border-slate-800 bg-slate-950/60 p-3.5">
-          <summary className="flex items-center justify-between cursor-pointer list-none text-xs sm:text-sm font-medium text-slate-200">
+        <details className="group rounded-xl border border-[rgba(148,163,184,0.18)] bg-[#1e293b]/55 p-3.5">
+          <summary className="flex items-center justify-between cursor-pointer list-none min-h-[44px] text-xs sm:text-sm font-medium text-[#f8fafc]">
             <span className="flex items-center gap-2">
-              <HelpCircle className="w-4 h-4 text-emerald-400" />
+              <HelpCircle className="w-4 h-4 text-[#10b981] shrink-0" />
               Preguntas frecuentes (FAQ) sobre privacidad, uso offline y compatibilidad
             </span>
-            <ChevronDown className="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" />
+            <ChevronDown className="w-4 h-4 text-[#94a3b8] transition-transform group-open:rotate-180" />
           </summary>
-          <dl className="mt-3 grid gap-3 sm:grid-cols-2 border-t border-slate-800/80 pt-3">
+          <dl className="mt-3 grid gap-3 sm:grid-cols-2 border-t border-[rgba(148,163,184,0.18)] pt-3">
             {FAQ_ITEMS.map((item) => (
               <div key={item.question} className="space-y-1">
-                <dt className="text-xs font-semibold text-slate-200">{item.question}</dt>
-                <dd className="text-xs text-slate-400 leading-relaxed">{item.answer}</dd>
+                <dt className="text-xs font-semibold text-[#f8fafc]">{item.question}</dt>
+                <dd className="text-xs text-[#94a3b8] leading-relaxed">{item.answer}</dd>
               </div>
             ))}
           </dl>
