@@ -16,34 +16,213 @@
     />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <link rel="canonical" href="https://escaner-mobile.pages.dev/foto-a-word" />
+    <link rel="alternate" hreflang="es" href="https://escaner-mobile.pages.dev/foto-a-word" />
     <link rel="alternate" type="text/plain" title="LLM Context" href="/llms.txt" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DocuScan & Sign" />
     <meta property="og:url" content="https://escaner-mobile.pages.dev/foto-a-word" />
     <meta property="og:locale" content="es_ES" />
     <meta property="og:title" content="Convertir Foto a Word (.docx) y Texto OCR Gratis — DocuScan & Sign" />
-    <meta property="og:description" content="Extrae texto editable con OCR local en tu navegador y exporta a Word (.docx), TXT, JPG, PNG o PDF gratis." />
+    <meta
+      property="og:description"
+      content="Extrae texto editable con OCR local en tu navegador y exporta a Word (.docx) editable, TXT, JPG, PNG o PDF gratis."
+    />
     <meta property="og:image" content="https://escaner-mobile.pages.dev/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1376" />
+    <meta property="og:image:height" content="768" />
+    <meta
+      property="og:image:alt"
+      content="Convertir Foto a Word editable y extraer texto con OCR local en DocuScan & Sign"
+    />
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Convertir Foto a Word (.docx) y OCR Gratis — DocuScan & Sign" />
+    <meta
+      name="twitter:description"
+      content="Reconoce texto en español o inglés desde tus fotos 100% en tu navegador y descárgalo como Word (.docx) editable o TXT sin subir archivos."
+    />
+    <meta name="twitter:image" content="https://escaner-mobile.pages.dev/og-image.jpg" />
+
+    <!-- Icons & PWA Manifest -->
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
     <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "@id": "https://escaner-mobile.pages.dev/foto-a-word#app",
+            "name": "DocuScan & Sign — Foto a Word y OCR Local",
+            "url": "https://escaner-mobile.pages.dev/foto-a-word",
+            "applicationCategory": "UtilitiesApplication",
+            "applicationSubCategory": "OCR & Document Converter",
+            "operatingSystem": "Web, Android, iOS, Windows, macOS, Linux",
+            "browserRequirements": "Requires JavaScript, HTML5 Canvas and WebAssembly",
+            "inLanguage": "es",
+            "isAccessibleForFree": true,
+            "image": "https://escaner-mobile.pages.dev/og-image.jpg",
+            "description": "Conversor gratuito de foto a Word (.docx) y extractor de texto OCR en español e inglés mediante WebAssembly (Tesseract.js) 100% local en el navegador.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "featureList": [
+              "Reconocimiento óptico de caracteres (OCR) local en español, inglés o bilingüe",
+              "Exportación de texto reconocido a Word (.docx) editable y texto plano (.txt)",
+              "Edición previa del texto extraído y copia al portapapeles con un clic",
+              "Exportación directa de páginas escaneadas a Word (.docx imagen), PDF, JPG, PNG y HTML",
+              "Sin envío de fotografías ni documentos a servidores externos"
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://escaner-mobile.pages.dev/foto-a-word#faq",
+            "inLanguage": "es",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "¿Cuál es la diferencia entre Word con OCR y Word desde páginas escaneadas?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Si ejecutas «Extraer Texto (OCR)», el motor reconoce las palabras de la imagen y genera un archivo Word (.docx) con texto 100% editable. Si exportas directamente desde el panel lateral como «Word (.docx) — Páginas escaneadas (imagen)», las hojas limpiadas se incrustan como imagen dentro del documento."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Qué idiomas soporta el OCR local?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Incluye reconocimiento en Español, Inglés y modo combinado Español + Inglés usando Tesseract.js ejecutado mediante WebAssembly directamente en tu dispositivo."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Puedo extraer texto de varias páginas a la vez?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Sí. En la ventana de OCR puedes elegir entre analizar solo la página actual o procesar todas las páginas escaneadas en lote y descargarlas juntas en un único Word (.docx) editable."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
     <div id="root">
-      <main class="max-w-4xl mx-auto px-4 py-10 space-y-6">
-        <h1 class="text-2xl sm:text-3xl font-bold text-white">
-          Convertir Foto a Word (.docx) y Extraer Texto OCR Gratis
-        </h1>
-        <p class="text-slate-300">
-          Reconoce texto en español o inglés con OCR 100% local en tu navegador y descárgalo como
-          Word (.docx) editable o .TXT, o exporta tus páginas escaneadas a Word, PDF, JPG, PNG y
-          HTML sin publicidad.
-        </p>
+      <main class="max-w-4xl mx-auto px-4 py-10 space-y-8">
+        <header class="space-y-3">
+          <h1 class="text-2xl sm:text-3xl font-bold text-white">
+            Convertir Foto a Word (.docx) y Extraer Texto OCR Gratis
+          </h1>
+          <p class="text-slate-300 leading-relaxed">
+            Transforma apuntes, facturas, libros o contratos fotografiados en texto editable listo
+            para copiar o descargar en Microsoft Word (.docx) y .TXT. Nuestro motor OCR con
+            WebAssembly corre íntegramente en tu navegador para garantizar privacidad total sin subir
+            imágenes a la nube.
+          </p>
+        </header>
+
+        <section class="space-y-2">
+          <h2 class="text-xl font-semibold text-white">
+            Dos modos de exportación a Word (.docx) según lo que necesites
+          </h2>
+          <ul class="list-disc list-inside text-slate-300 space-y-1.5 leading-relaxed">
+            <li>
+              <strong>Word (.docx) con texto editable vía OCR:</strong> pulsa «Extraer Texto (OCR)»,
+              selecciona Español, Inglés o ambos idiomas, revisa o corrige el resultado y descarga
+              un archivo Word editable o .TXT.
+            </li>
+            <li>
+              <strong>Word (.docx) con páginas escaneadas (imagen):</strong> ideal cuando necesitas
+              conservar la maquetación visual exacta, sellos o tablas escaneadas dentro de un
+              documento Word listo para imprimir.
+            </li>
+            <li>
+              <strong>Limpieza previa automática:</strong> antes de ejecutar el OCR puedes recortar
+              los bordes y aplicar Blanco y Negro o Magic Color para maximizar la precisión de lectura.
+            </li>
+            <li>
+              <strong>Exportación multiformato adicional:</strong> también puedes generar PDF
+              multipágina, imágenes JPG/PNG individuales o en ZIP y HTML imprimible.
+            </li>
+          </ul>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-xl font-semibold text-white">Cómo pasar una foto a Word editable</h2>
+          <ol class="list-decimal list-inside text-slate-300 space-y-1.5 leading-relaxed">
+            <li>Sube una foto desde tu galería o toma una captura con la cámara.</li>
+            <li>Si hace falta, recorta las esquinas y selecciona el filtro Magic Color o Blanco y Negro.</li>
+            <li>Haz clic en «Extraer Texto (OCR)» y elige página actual o todas las páginas.</li>
+            <li>Edita el texto detectado si lo deseas y pulsa «Word (.docx) editable».</li>
+          </ol>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-xl font-semibold text-white">Preguntas frecuentes sobre Foto a Word y OCR</h2>
+          <dl class="space-y-3 text-slate-300">
+            <div>
+              <dt class="font-semibold text-white">
+                ¿Cuál es la diferencia entre Word con OCR y Word desde páginas escaneadas?
+              </dt>
+              <dd class="mt-0.5 leading-relaxed">
+                Si ejecutas «Extraer Texto (OCR)», el motor reconoce las palabras de la imagen y
+                genera un archivo Word (.docx) con texto 100% editable. Si exportas directamente desde
+                el panel lateral como «Word (.docx) — Páginas escaneadas (imagen)», las hojas
+                limpiadas se incrustan como imagen dentro del documento.
+              </dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-white">¿Qué idiomas soporta el OCR local?</dt>
+              <dd class="mt-0.5 leading-relaxed">
+                Incluye reconocimiento en Español, Inglés y modo combinado Español + Inglés usando
+                Tesseract.js ejecutado mediante WebAssembly directamente en tu dispositivo.
+              </dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-white">
+                ¿Puedo extraer texto de varias páginas a la vez?
+              </dt>
+              <dd class="mt-0.5 leading-relaxed">
+                Sí. En la ventana de OCR puedes elegir entre analizar solo la página actual o procesar
+                todas las páginas escaneadas en lote y descargarlas juntas en un único Word (.docx)
+                editable.
+              </dd>
+            </div>
+          </dl>
+        </section>
+
         <nav class="flex flex-wrap gap-3 text-sm text-indigo-400">
           <a href="/">Inicio</a>
           <a href="/escaner-documentos">Escáner de Documentos</a>
           <a href="/firmar-pdf-gratis">Firmar PDF Gratis</a>
           <a href="/alternativa-camscanner">Alternativa a CamScanner</a>
         </nav>
+
+        <noscript>
+          <p class="text-amber-400 font-medium">
+            Activa JavaScript en tu navegador para convertir fotos a Word con OCR local.
+          </p>
+        </noscript>
       </main>
     </div>
     <script type="module" src="/src/main.tsx"></script>

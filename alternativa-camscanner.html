@@ -16,34 +16,211 @@
     />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <link rel="canonical" href="https://escaner-mobile.pages.dev/alternativa-camscanner" />
+    <link rel="alternate" hreflang="es" href="https://escaner-mobile.pages.dev/alternativa-camscanner" />
     <link rel="alternate" type="text/plain" title="LLM Context" href="/llms.txt" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DocuScan & Sign" />
     <meta property="og:url" content="https://escaner-mobile.pages.dev/alternativa-camscanner" />
     <meta property="og:locale" content="es_ES" />
     <meta property="og:title" content="Alternativa a CamScanner Gratis y Sin Anuncios — DocuScan & Sign" />
-    <meta property="og:description" content="Escanea documentos, usa OCR local, firma PDFs y convierte a Word (.docx), JPG o PNG gratis y 100% privado." />
+    <meta
+      property="og:description"
+      content="Escanea documentos, usa OCR local, firma PDFs y convierte a Word (.docx), JPG o PNG gratis, sin marcas de agua y 100% privado."
+    />
     <meta property="og:image" content="https://escaner-mobile.pages.dev/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1376" />
+    <meta property="og:image:height" content="768" />
+    <meta
+      property="og:image:alt"
+      content="DocuScan & Sign: alternativa gratuita a CamScanner sin anuncios ni marcas de agua"
+    />
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Alternativa a CamScanner Gratis y Sin Marcas de Agua — DocuScan & Sign" />
+    <meta
+      name="twitter:description"
+      content="Escanea con detección de bordes, OCR local, firma PDF y exportación sin marcas de agua ni suscripciones."
+    />
+    <meta name="twitter:image" content="https://escaner-mobile.pages.dev/og-image.jpg" />
+
+    <!-- Icons & PWA Manifest -->
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
     <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "@id": "https://escaner-mobile.pages.dev/alternativa-camscanner#app",
+            "name": "DocuScan & Sign — Alternativa a CamScanner",
+            "url": "https://escaner-mobile.pages.dev/alternativa-camscanner",
+            "applicationCategory": "UtilitiesApplication",
+            "applicationSubCategory": "Document Scanner & PDF Signer",
+            "operatingSystem": "Web, Android, iOS, Windows, macOS, Linux",
+            "browserRequirements": "Requires JavaScript, HTML5 Canvas and WebRTC",
+            "inLanguage": "es",
+            "isAccessibleForFree": true,
+            "image": "https://escaner-mobile.pages.dev/og-image.jpg",
+            "description": "Alternativa gratuita y privada a CamScanner y Adobe Scan sin marcas de agua, sin anuncios, sin cuentas y con procesamiento 100% local en el navegador.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "featureList": [
+              "Cero marcas de agua y cero anuncios en PDF, Word, JPG o PNG",
+              "Detección de bordes, corrección de perspectiva y filtro Magic Color",
+              "OCR local en español e inglés para extraer texto editable a Word (.docx) o TXT",
+              "Firmador de PDF completo con eliminación automática de fondo blanco en firmas",
+              "Instalable como PWA con soporte offline real y bóveda local IndexedDB"
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://escaner-mobile.pages.dev/alternativa-camscanner#faq",
+            "inLanguage": "es",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "¿Por qué elegir DocuScan & Sign frente a CamScanner?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "DocuScan & Sign no añade marcas de agua, no muestra anuncios, no exige registro ni suscripción mensual y procesa todos tus documentos localmente sin subirlos a servidores externos."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Incluye las funciones premium habituales como OCR, firma y Word?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Sí. Tanto el escáner multipágina con Magic Color como el OCR en español/inglés, la firma de PDFs y la exportación a PDF, Word (.docx), JPG, PNG y HTML son totalmente gratuitos."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Necesito instalar una app pesada de la tienda para usarlo en el móvil?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Funciona directo en Chrome o Safari y puedes añadirlo a tu pantalla de inicio como PWA ligera con funcionamiento sin conexión tras la primera visita."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
     <div id="root">
-      <main class="max-w-4xl mx-auto px-4 py-10 space-y-6">
-        <h1 class="text-2xl sm:text-3xl font-bold text-white">
-          Alternativa a CamScanner Gratis, Sin Anuncios y Sin Marcas de Agua
-        </h1>
-        <p class="text-slate-300">
-          Escanea documentos con detección automática de bordes, filtro Magic Color, OCR gratuito en
-          tu dispositivo, firma de PDFs y exportación a PDF, Word (.docx), JPG, PNG y HTML sin
-          cuentas ni servidores.
-        </p>
+      <main class="max-w-4xl mx-auto px-4 py-10 space-y-8">
+        <header class="space-y-3">
+          <h1 class="text-2xl sm:text-3xl font-bold text-white">
+            Alternativa a CamScanner Gratis, Sin Anuncios y Sin Marcas de Agua
+          </h1>
+          <p class="text-slate-300 leading-relaxed">
+            Si buscas una alternativa rápida, privada y sin suscripciones a CamScanner o Adobe Scan,
+            DocuScan &amp; Sign te ofrece escaneo multipágina con cámara, enderezado de perspectiva,
+            eliminación de sombras, OCR local, firma de PDFs y bóveda offline sin crear cuentas ni
+            ceder tus archivos a la nube.
+          </p>
+        </header>
+
+        <section class="space-y-2">
+          <h2 class="text-xl font-semibold text-white">
+            Todo lo que otras apps cobran, aquí es gratis y privado
+          </h2>
+          <ul class="list-disc list-inside text-slate-300 space-y-1.5 leading-relaxed">
+            <li>
+              <strong>Sin marcas de agua ni límites:</strong> exporta PDFs limpios, imágenes JPG/PNG,
+              HTML imprimible o documentos Word (.docx) sin sellos promocionales.
+            </li>
+            <li>
+              <strong>Procesamiento 100% en tu dispositivo:</strong> tus DNI, contratos, nóminas y
+              facturas jamás se suben a servidores de terceros.
+            </li>
+            <li>
+              <strong>OCR y firma incluidos:</strong> extrae texto editable en español o inglés y
+              firma cualquier PDF dibujando, escribiendo o quitando el fondo blanco de tu firma.
+            </li>
+            <li>
+              <strong>Modo Cédula / DNI y compresión exacta:</strong> coloca dos caras en una sola
+              hoja y reduce el PDF final por debajo de 500 KB, 1 MB o 2 MB.
+            </li>
+          </ul>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-xl font-semibold text-white">Cómo empezar en segundos</h2>
+          <ol class="list-decimal list-inside text-slate-300 space-y-1.5 leading-relaxed">
+            <li>Abre el Escáner para fotografiar documentos o entra en «Firmar PDF» para rúbricas.</li>
+            <li>Ajusta esquinas, aplica Magic Color y ordena todas las páginas que necesites.</li>
+            <li>Descarga o comparte el resultado en PDF, Word, JPG o PNG al instante.</li>
+          </ol>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-xl font-semibold text-white">Preguntas frecuentes</h2>
+          <dl class="space-y-3 text-slate-300">
+            <div>
+              <dt class="font-semibold text-white">
+                ¿Por qué elegir DocuScan &amp; Sign frente a CamScanner?
+              </dt>
+              <dd class="mt-0.5 leading-relaxed">
+                DocuScan &amp; Sign no añade marcas de agua, no muestra anuncios, no exige registro ni
+                suscripción mensual y procesa todos tus documentos localmente sin subirlos a
+                servidores externos.
+              </dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-white">
+                ¿Incluye las funciones premium habituales como OCR, firma y Word?
+              </dt>
+              <dd class="mt-0.5 leading-relaxed">
+                Sí. Tanto el escáner multipágina con Magic Color como el OCR en español/inglés, la
+                firma de PDFs y la exportación a PDF, Word (.docx), JPG, PNG y HTML son totalmente
+                gratuitos.
+              </dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-white">
+                ¿Necesito instalar una app pesada de la tienda para usarlo en el móvil?
+              </dt>
+              <dd class="mt-0.5 leading-relaxed">
+                No. Funciona directo en Chrome o Safari y puedes añadirlo a tu pantalla de inicio
+                como PWA ligera con funcionamiento sin conexión tras la primera visita.
+              </dd>
+            </div>
+          </dl>
+        </section>
+
         <nav class="flex flex-wrap gap-3 text-sm text-indigo-400">
           <a href="/">Inicio</a>
           <a href="/escaner-documentos">Escáner de Documentos</a>
           <a href="/firmar-pdf-gratis">Firmar PDF Gratis</a>
           <a href="/foto-a-word">Convertir Foto a Word y OCR</a>
         </nav>
+
+        <noscript>
+          <p class="text-amber-400 font-medium">
+            Activa JavaScript en tu navegador para utilizar DocuScan &amp; Sign.
+          </p>
+        </noscript>
       </main>
     </div>
     <script type="module" src="/src/main.tsx"></script>

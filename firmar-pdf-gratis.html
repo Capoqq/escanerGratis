@@ -16,34 +16,207 @@
     />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <link rel="canonical" href="https://escaner-mobile.pages.dev/firmar-pdf-gratis" />
+    <link rel="alternate" hreflang="es" href="https://escaner-mobile.pages.dev/firmar-pdf-gratis" />
     <link rel="alternate" type="text/plain" title="LLM Context" href="/llms.txt" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DocuScan & Sign" />
     <meta property="og:url" content="https://escaner-mobile.pages.dev/firmar-pdf-gratis" />
     <meta property="og:locale" content="es_ES" />
     <meta property="og:title" content="Firmar PDF Gratis Sin Subir Archivos — DocuScan & Sign" />
-    <meta property="og:description" content="Inserta tu firma, fecha y texto en cualquier PDF 100% local y sin marcas de agua." />
+    <meta
+      property="og:description"
+      content="Inserta tu firma manuscrita, tipográfica o desde imagen transparente, fecha y texto en cualquier PDF 100% local y sin marcas de agua."
+    />
     <meta property="og:image" content="https://escaner-mobile.pages.dev/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1376" />
+    <meta property="og:image:height" content="768" />
+    <meta
+      property="og:image:alt"
+      content="Firmador de PDF gratis 100% local en DocuScan & Sign"
+    />
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Firmar PDF Gratis Sin Subir Archivos — DocuScan & Sign" />
+    <meta
+      name="twitter:description"
+      content="Firma contratos y formularios PDF en tu navegador o móvil sin subir documentos a servidores y sin marcas de agua."
+    />
+    <meta name="twitter:image" content="https://escaner-mobile.pages.dev/og-image.jpg" />
+
+    <!-- Icons & PWA Manifest -->
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
     <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "@id": "https://escaner-mobile.pages.dev/firmar-pdf-gratis#app",
+            "name": "DocuScan & Sign — Firmador de PDF Gratis",
+            "url": "https://escaner-mobile.pages.dev/firmar-pdf-gratis",
+            "applicationCategory": "BusinessApplication",
+            "applicationSubCategory": "PDF Signer",
+            "operatingSystem": "Web, Android, iOS, Windows, macOS, Linux",
+            "browserRequirements": "Requires JavaScript and HTML5 Canvas",
+            "inLanguage": "es",
+            "isAccessibleForFree": true,
+            "image": "https://escaner-mobile.pages.dev/og-image.jpg",
+            "description": "Herramienta gratuita para firmar archivos PDF localmente en el navegador sin subir documentos a la nube. Soporta firma dibujada, tipográfica e imagen con eliminación automática de fondo blanco.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "featureList": [
+              "Firma dibujada con trazo suave compatible con dedo, ratón y lápiz óptico",
+              "Firma tipográfica o importada desde foto con eliminación automática de fondo blanco",
+              "Inserción de fecha actual y anotaciones de texto en cualquier página del PDF",
+              "Guardado de firmas reutilizables en IndexedDB local",
+              "Aplanado directo del PDF en el cliente mediante pdf-lib y pdfjs-dist sin marcas de agua"
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://escaner-mobile.pages.dev/firmar-pdf-gratis#faq",
+            "inLanguage": "es",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "¿Es seguro firmar contratos confidenciales aquí?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Sí. Tu archivo PDF y tu firma nunca abandonan tu dispositivo. El renderizado y el aplanado del PDF firmado se realizan al 100% en tu navegador con pdfjs-dist y pdf-lib."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Cómo puedo quitar el fondo blanco de la foto de mi firma?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Dentro del modal de firma, elige la pestaña para subir imagen y selecciona una foto de tu firma en papel blanco. DocuScan & Sign convierte automáticamente el fondo claro en transparente."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Tiene límite de documentos o añade marcas de agua?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Puedes firmar tantos documentos PDF como necesites de forma ilimitada, sin crear cuenta y sin ningún tipo de marca de agua ni pie promocional."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
     <div id="root">
-      <main class="max-w-4xl mx-auto px-4 py-10 space-y-6">
-        <h1 class="text-2xl sm:text-3xl font-bold text-white">
-          Firmar PDF Gratis Online y Sin Internet
-        </h1>
-        <p class="text-slate-300">
-          Firma contratos, autorizaciones y formularios PDF directamente en tu dispositivo. Dibuja tu
-          firma a mano, usa estilo tipográfico o sube una foto de tu firma en papel con fondo
-          transparente automático.
-        </p>
+      <main class="max-w-4xl mx-auto px-4 py-10 space-y-8">
+        <header class="space-y-3">
+          <h1 class="text-2xl sm:text-3xl font-bold text-white">
+            Firmar PDF Gratis Online y Sin Internet
+          </h1>
+          <p class="text-slate-300 leading-relaxed">
+            Firma contratos de alquiler, autorizaciones escolares, facturas y formularios PDF en
+            cuestión de segundos directamente desde tu navegador o teléfono móvil. Todo el proceso
+            es 100% local, privado y sin subir documentos confidenciales a servidores externos.
+          </p>
+        </header>
+
+        <section class="space-y-2">
+          <h2 class="text-xl font-semibold text-white">Tres formas de crear tu firma sin fondo</h2>
+          <ul class="list-disc list-inside text-slate-300 space-y-1.5 leading-relaxed">
+            <li>
+              <strong>Firma manuscrita:</strong> dibuja tu rúbrica con el dedo, stylus o ratón con
+              trazo suave y grosor adaptable.
+            </li>
+            <li>
+              <strong>Firma tipográfica:</strong> escribe tu nombre y elige estilo caligráfico limpio
+              con fondo transparente.
+            </li>
+            <li>
+              <strong>Firma desde foto en papel:</strong> sube una fotografía de tu firma hecha con
+              bolígrafo y eliminamos automáticamente el fondo blanco para integrarla sin recuadros.
+            </li>
+            <li>
+              <strong>Fechas y textos:</strong> añade la fecha actual con un clic o inserta nombre,
+              DNI, cargo o notas en cualquier página del PDF, incluso con símbolos y emojis.
+            </li>
+          </ul>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-xl font-semibold text-white">Cómo firmar un PDF paso a paso</h2>
+          <ol class="list-decimal list-inside text-slate-300 space-y-1.5 leading-relaxed">
+            <li>Arrastra tu archivo PDF o selecciónalo desde tu dispositivo (también puedes enviarlo directo desde el escáner).</li>
+            <li>Pulsa «Añadir Firma» para dibujar, escribir o subir la imagen de tu rúbrica.</li>
+            <li>Arrastra y redimensiona la firma, fecha o texto sobre la página deseada.</li>
+            <li>Haz clic en «Exportar» o «Compartir» para descargar el PDF firmado al instante.</li>
+          </ol>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-xl font-semibold text-white">Preguntas frecuentes sobre firmar PDFs</h2>
+          <dl class="space-y-3 text-slate-300">
+            <div>
+              <dt class="font-semibold text-white">¿Es seguro firmar contratos confidenciales aquí?</dt>
+              <dd class="mt-0.5 leading-relaxed">
+                Sí. Tu archivo PDF y tu firma nunca abandonan tu dispositivo. El renderizado y el
+                aplanado del PDF firmado se realizan al 100% en tu navegador con pdfjs-dist y
+                pdf-lib.
+              </dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-white">
+                ¿Cómo puedo quitar el fondo blanco de la foto de mi firma?
+              </dt>
+              <dd class="mt-0.5 leading-relaxed">
+                Dentro del modal de firma, elige la pestaña para subir imagen y selecciona una foto
+                de tu firma en papel blanco. DocuScan &amp; Sign convierte automáticamente el fondo
+                claro en transparente.
+              </dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-white">
+                ¿Tiene límite de documentos o añade marcas de agua?
+              </dt>
+              <dd class="mt-0.5 leading-relaxed">
+                No. Puedes firmar tantos documentos PDF como necesites de forma ilimitada, sin crear
+                cuenta y sin ningún tipo de marca de agua ni pie promocional.
+              </dd>
+            </div>
+          </dl>
+        </section>
+
         <nav class="flex flex-wrap gap-3 text-sm text-indigo-400">
           <a href="/">Inicio</a>
           <a href="/escaner-documentos">Escáner de Documentos</a>
           <a href="/foto-a-word">Convertir Foto a Word y OCR</a>
           <a href="/alternativa-camscanner">Alternativa a CamScanner</a>
         </nav>
+
+        <noscript>
+          <p class="text-amber-400 font-medium">
+            Activa JavaScript en tu navegador para utilizar el firmador interactivo de PDF.
+          </p>
+        </noscript>
       </main>
     </div>
     <script type="module" src="/src/main.tsx"></script>

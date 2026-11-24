@@ -19,6 +19,7 @@ export interface ScannedPage {
   rotation: 0 | 90 | 180 | 270;
   width: number;
   height: number;
+  jpegQuality?: number;
 }
 
 export interface SignatureAsset {

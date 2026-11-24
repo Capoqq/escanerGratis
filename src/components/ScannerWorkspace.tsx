@@ -20,9 +20,9 @@ import {
   detectDocumentCorners,
   imageToCanvas,
   processScannedPage,
+  recompressJpegDataUrl,
 } from '../utils/imageProcessor';
 import { captureNativePhoto, formatBytes, isNativePlatform, saveOrShareFile, saveOrSharePdf } from '../utils/platform';
-import { createPdfFromScannedPages, generatePdfThumbnail } from '../utils/pdfService';
 import {
   createDocxFromScannedPages,
   createHtmlFromScannedPages,
@@ -37,6 +37,7 @@ import { OcrModal } from './OcrModal';
 interface ScannerWorkspaceProps {
   onOpenInSigner: (doc: SavedDocument) => void;
   onNotify: (msg: string) => void;
+  isPhotoToWord?: boolean;
 }
 
 const FILTERS: { id: ScanFilter; label: string }[] = [
@@ -49,6 +50,7 @@ const FILTERS: { id: ScanFilter; label: string }[] = [
 export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
   onOpenInSigner,
   onNotify,
+  isPhotoToWord = false,
 }) => {
   const [pages, setPages] = useState<ScannedPage[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -95,6 +97,7 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
         rotation,
         width,
         height,
+        jpegQuality,
       };
       setPages((prev) => [...prev, newPage]);
       setSelectedId(newPage.id);
@@ -158,6 +161,7 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
                 processedDataUrl,
                 width,
                 height,
+                jpegQuality,
               }
             : p
         )
@@ -207,14 +211,59 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
     });
   };
 
+  const ensurePagesQuality = async (
+    sourcePages: ScannedPage[],
+    targetQuality: number
+  ): Promise<ScannedPage[]> => {
+    let changed = false;
+    const updated = await Promise.all(
+      sourcePages.map(async (page) => {
+        if (page.jpegQuality === targetQuality) return page;
+        changed = true;
+        if (page.jpegQuality !== undefined && targetQuality < page.jpegQuality) {
+          const processedDataUrl = await recompressJpegDataUrl(
+            page.processedDataUrl,
+            targetQuality
+          );
+          return { ...page, processedDataUrl, jpegQuality: targetQuality };
+        }
+        const { processedDataUrl, width, height } = await processScannedPage(
+          page.originalDataUrl,
+          page.corners,
+          page.filter,
+          page.rotation,
+          targetQuality
+        );
+        return {
+          ...page,
+          processedDataUrl,
+          width,
+          height,
+          jpegQuality: targetQuality,
+        };
+      })
+    );
+    if (changed) {
+      setPages(updated);
+    }
+    return updated;
+  };
+
   const buildAndExport = async (action: 'download' | 'share' | 'sign') => {
     if (pages.length === 0) return;
     setIsExporting(true);
     try {
       const cleanName = docName.trim() || `Escaneo_${Date.now()}`;
+      const exportPages =
+        action === 'sign' || exportFormat !== 'png'
+          ? await ensurePagesQuality(pages, jpegQuality)
+          : pages;
 
       if (action === 'sign' || exportFormat === 'pdf') {
-        const pdfBytes = await createPdfFromScannedPages(pages, pageSize, {
+        const { createPdfFromScannedPages, generatePdfThumbnail } = await import(
+          '../utils/pdfService'
+        );
+        const pdfBytes = await createPdfFromScannedPages(exportPages, pageSize, {
           twoPerPage,
           maxSizeBytes: targetMaxSizeKb > 0 ? targetMaxSizeKb * 1024 : undefined,
         });
@@ -228,7 +277,7 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
           id: crypto.randomUUID(),
           name: cleanName,
           type: 'scan',
-          pageCount: twoPerPage ? Math.ceil(pages.length / 2) : pages.length,
+          pageCount: twoPerPage ? Math.ceil(exportPages.length / 2) : exportPages.length,
           sizeBytes: pdfBytes.byteLength,
           pdfBytes: buffer,
           thumbnailDataUrl: thumb,
@@ -251,24 +300,24 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
       const preferShare = action === 'share';
 
       if (exportFormat === 'docx') {
-        const docxBytes = createDocxFromScannedPages(pages, pageSize);
+        const docxBytes = createDocxFromScannedPages(exportPages, pageSize);
         await saveOrShareFile(
           docxBytes,
           `${cleanName}.docx`,
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
           preferShare
         );
-        onNotify('Documento Word (.docx) exportado sin marcas de agua.');
+        onNotify('Word (.docx) con páginas escaneadas exportado.');
       } else if (exportFormat === 'jpg' || exportFormat === 'png') {
-        const exported = await createImagesExport(pages, cleanName, exportFormat);
+        const exported = await createImagesExport(exportPages, cleanName, exportFormat);
         await saveOrShareFile(exported.bytes, exported.filename, exported.mimeType, preferShare);
         onNotify(
-          pages.length > 1
+          exportPages.length > 1
             ? `Imágenes ${exportFormat.toUpperCase()} empaquetadas en ZIP.`
             : `Imagen ${exportFormat.toUpperCase()} descargada.`
         );
       } else if (exportFormat === 'html') {
-        const htmlBytes = createHtmlFromScannedPages(pages, cleanName);
+        const htmlBytes = createHtmlFromScannedPages(exportPages, cleanName);
         await saveOrShareFile(htmlBytes, `${cleanName}.html`, 'text/html; charset=utf-8', preferShare);
         onNotify('Documento HTML imprimible exportado.');
       }
@@ -317,10 +366,13 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
             <Camera className="w-8 h-8" />
           </div>
           <div className="max-w-md mx-auto space-y-2">
-            <h2 className="text-xl font-bold text-white">Escáner Inteligente de Documentos</h2>
+            <h2 className="text-xl font-bold text-white">
+              {isPhotoToWord ? 'Sube una Foto o Escanea para Convertir a Word' : 'Escáner Inteligente de Documentos'}
+            </h2>
             <p className="text-sm text-slate-400">
-              Detecta bordes automáticamente, corrige la perspectiva, elimina sombras y genera PDFs
-              ligeros 100% en tu dispositivo.
+              {isPhotoToWord
+                ? 'Captura o sube tu documento y luego pulsa «Extraer Texto (OCR)» para generar un Word (.docx) 100% editable.'
+                : 'Detecta bordes automáticamente, corrige la perspectiva, elimina sombras y genera PDFs ligeros 100% en tu dispositivo.'}
             </p>
           </div>
 
@@ -345,6 +397,22 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           {/* Left / Main Preview */}
           <div className="lg:col-span-8 rounded-2xl bg-slate-900/80 border border-slate-800 p-4 flex flex-col gap-4">
+            {isPhotoToWord && selectedPage && !isCropping && (
+              <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2">
+                <p className="text-xs text-emerald-200">
+                  <strong className="font-semibold">Paso siguiente:</strong> extrae el texto con OCR local para descargar un Word (.docx) editable.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setShowOcr(true)}
+                  disabled={isProcessing}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white transition"
+                >
+                  <ScanText className="w-3.5 h-3.5" />
+                  OCR → Word editable
+                </button>
+              </div>
+            )}
             {selectedPage && (
               <>
                 {/* Toolbar */}
@@ -570,12 +638,30 @@ export const ScannerWorkspace: React.FC<ScannerWorkspaceProps> = ({
                   className="w-full px-2.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
                 >
                   <option value="pdf">PDF (.pdf) — Multipágina</option>
-                  <option value="docx">Word (.docx) — Documento editable</option>
+                  <option value="docx">Word (.docx) — Páginas escaneadas (imagen)</option>
                   <option value="jpg">Imagen JPG (.jpg / .zip)</option>
                   <option value="png">Imagen PNG (.png / .zip)</option>
                   <option value="html">Web / Imprimible (.html)</option>
                 </select>
               </div>
+
+              {exportFormat === 'docx' && (
+                <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-3 space-y-2">
+                  <p className="text-[11px] text-slate-300 leading-relaxed">
+                    Esta exportación inserta las páginas escaneadas como imagen dentro del archivo{' '}
+                    <strong className="text-white">.docx</strong>.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setShowOcr(true)}
+                    disabled={!selectedPage || isProcessing}
+                    className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-600/25 hover:bg-emerald-600/35 border border-emerald-500/40 text-xs font-semibold text-emerald-200 transition disabled:opacity-50"
+                  >
+                    <ScanText className="w-3.5 h-3.5" />
+                    Ejecutar OCR → Word editable
+                  </button>
+                </div>
+              )}
 
               <div className="grid grid-cols-2 gap-2.5">
                 <div className="space-y-1">

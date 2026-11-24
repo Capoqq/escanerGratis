@@ -486,3 +486,22 @@ export async function processScannedPage(
     height: filtered.height,
   };
 }
+
+/**
+ * Recompresses an existing image DataURL to the requested JPEG quality via Canvas 2D.
+ */
+export async function recompressJpegDataUrl(
+  dataUrl: string,
+  jpegQuality: number
+): Promise<string> {
+  const img = await loadImage(dataUrl);
+  const width = img.naturalWidth || img.width;
+  const height = img.naturalHeight || img.height;
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.max(1, width);
+  canvas.height = Math.max(1, height);
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return dataUrl;
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL('image/jpeg', jpegQuality);
+}

@@ -16,34 +16,217 @@
     />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <link rel="canonical" href="https://escaner-mobile.pages.dev/escaner-documentos" />
+    <link rel="alternate" hreflang="es" href="https://escaner-mobile.pages.dev/escaner-documentos" />
     <link rel="alternate" type="text/plain" title="LLM Context" href="/llms.txt" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DocuScan & Sign" />
     <meta property="og:url" content="https://escaner-mobile.pages.dev/escaner-documentos" />
     <meta property="og:locale" content="es_ES" />
     <meta property="og:title" content="Escáner de Documentos Online Gratis — DocuScan & Sign" />
-    <meta property="og:description" content="Digitaliza hojas, facturas y contratos con tu cámara, corrige perspectiva y exporta a PDF o Word 100% local." />
+    <meta
+      property="og:description"
+      content="Digitaliza hojas, facturas y contratos con tu cámara, corrige perspectiva y exporta a PDF, JPG, PNG o Word 100% local."
+    />
     <meta property="og:image" content="https://escaner-mobile.pages.dev/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1376" />
+    <meta property="og:image:height" content="768" />
+    <meta
+      property="og:image:alt"
+      content="Escáner de Documentos Online Gratis en DocuScan & Sign con detección automática de bordes"
+    />
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Escáner de Documentos Online Gratis — DocuScan & Sign" />
+    <meta
+      name="twitter:description"
+      content="Escanea documentos con cámara, endereza la perspectiva y elimina sombras gratis y sin subir archivos a servidores."
+    />
+    <meta name="twitter:image" content="https://escaner-mobile.pages.dev/og-image.jpg" />
+
+    <!-- Icons & PWA Manifest -->
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
     <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "@id": "https://escaner-mobile.pages.dev/escaner-documentos#app",
+            "name": "DocuScan & Sign — Escáner de Documentos",
+            "url": "https://escaner-mobile.pages.dev/escaner-documentos",
+            "applicationCategory": "UtilitiesApplication",
+            "applicationSubCategory": "Document Scanner",
+            "operatingSystem": "Web, Android, iOS, Windows, macOS, Linux",
+            "browserRequirements": "Requires JavaScript, HTML5 Canvas and WebRTC",
+            "inLanguage": "es",
+            "isAccessibleForFree": true,
+            "image": "https://escaner-mobile.pages.dev/og-image.jpg",
+            "description": "Escáner de documentos gratuito en el navegador y móvil con detección de bordes, corrección de perspectiva mediante homografía 3x3, eliminación de sombras Magic Color y exportación PDF multipágina 100% local.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "featureList": [
+              "Detección automática de bordes con operador Sobel",
+              "Corrección de perspectiva por homografía 3x3 y rotación de páginas",
+              "Filtros Magic Color, Blanco y Negro adaptativo, Grises y Original",
+              "Modo Cédula / DNI (2 caras en 1 hoja) y límite de peso PDF para trámites",
+              "Exportación a PDF multipágina, JPG, PNG, HTML y Word (.docx) sin marcas de agua"
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://escaner-mobile.pages.dev/escaner-documentos#faq",
+            "inLanguage": "es",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "¿Cómo escanea documentos sin subirlos a un servidor?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Todo el procesamiento —detección de esquinas, recorte en perspectiva y mejora de contraste con Magic Color— ocurre dentro de tu navegador mediante Canvas 2D. Ninguna foto sale de tu equipo."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Puedo escanear varias páginas en un solo PDF?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Sí. Puedes capturar o subir múltiples fotos, reordenarlas, elegir tamaño A4, Carta o Ajuste Auto y exportarlas en un único PDF multipágina sin marcas de agua."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Sirve para escanear cédulas o DNI por ambas caras en una hoja?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Sí. Activa la opción «Modo Cédula / DNI (2 caras en 1 hoja)» en el panel de exportación PDF y también puedes limitar el peso máximo a 500 KB, 1 MB o 2 MB para trámites oficiales."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
     <div id="root">
-      <main class="max-w-4xl mx-auto px-4 py-10 space-y-6">
-        <h1 class="text-2xl sm:text-3xl font-bold text-white">
-          Escáner de Documentos Online Gratis y 100% Privado
-        </h1>
-        <p class="text-slate-300">
-          Convierte cualquier foto tomada con tu cámara en un documento nítido y recto. Detectamos
-          automáticamente las 4 esquinas, aplicamos corrección de perspectiva y limpiamos sombras con
-          Magic Color directamente en tu navegador.
-        </p>
+      <main class="max-w-4xl mx-auto px-4 py-10 space-y-8">
+        <header class="space-y-3">
+          <h1 class="text-2xl sm:text-3xl font-bold text-white">
+            Escáner de Documentos Online Gratis y 100% Privado
+          </h1>
+          <p class="text-slate-300 leading-relaxed">
+            Convierte cualquier fotografía tomada con la cámara de tu móvil o computadora en un
+            documento digital nítido, plano y listo para enviar. DocuScan &amp; Sign detecta
+            automáticamente las cuatro esquinas del papel, corrige la perspectiva inclinada y
+            elimina sombras irregulares con el filtro Magic Color directamente en tu dispositivo.
+          </p>
+        </header>
+
+        <section class="space-y-2">
+          <h2 class="text-xl font-semibold text-white">Funciones clave del escáner inteligente</h2>
+          <ul class="list-disc list-inside text-slate-300 space-y-1.5 leading-relaxed">
+            <li>
+              <strong>Captura versátil:</strong> usa la cámara en vivo desde el navegador o sube
+              múltiples fotografías desde tu galería de Android, iOS, Windows o macOS.
+            </li>
+            <li>
+              <strong>Recorte y perspectiva de precisión:</strong> ajusta manualmente las 4 esquinas
+              con lupa de precisión o vuelve a detectar bordes con un toque.
+            </li>
+            <li>
+              <strong>Filtros optimizados para lectura:</strong> Magic Color para limpiar fondos,
+              Blanco y Negro adaptativo para texto de alto contraste, Escala de Grises y Original.
+            </li>
+            <li>
+              <strong>Control de peso y modo Cédula / DNI:</strong> combina dos caras en una sola
+              página A4 o Carta y comprime el PDF final por debajo de 500 KB, 1 MB o 2 MB para
+              portales de trámites.
+            </li>
+            <li>
+              <strong>Privacidad garantizada y uso offline:</strong> al instalarse como PWA, funciona
+              incluso sin internet y guarda tus documentos en la bóveda local IndexedDB.
+            </li>
+          </ul>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-xl font-semibold text-white">Cómo escanear un documento en 4 pasos</h2>
+          <ol class="list-decimal list-inside text-slate-300 space-y-1.5 leading-relaxed">
+            <li>Pulsa «Escanear con Cámara» o selecciona imágenes existentes desde tu dispositivo.</li>
+            <li>Verifica el recorte de perspectiva y rota la página si es necesario.</li>
+            <li>Aplica Magic Color o Blanco y Negro y ajusta la compresión JPEG deseada.</li>
+            <li>Descarga el PDF multipágina, compártelo o envíalo directamente al firmador de PDF.</li>
+          </ol>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-xl font-semibold text-white">
+            Preguntas frecuentes sobre el escáner
+          </h2>
+          <dl class="space-y-3 text-slate-300">
+            <div>
+              <dt class="font-semibold text-white">
+                ¿Cómo escanea documentos sin subirlos a un servidor?
+              </dt>
+              <dd class="mt-0.5 leading-relaxed">
+                Todo el procesamiento —detección de esquinas, recorte en perspectiva y mejora de
+                contraste con Magic Color— ocurre dentro de tu navegador mediante Canvas 2D. Ninguna
+                foto sale de tu equipo.
+              </dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-white">
+                ¿Puedo escanear varias páginas en un solo PDF?
+              </dt>
+              <dd class="mt-0.5 leading-relaxed">
+                Sí. Puedes capturar o subir múltiples fotos, reordenarlas, elegir tamaño A4, Carta o
+                Ajuste Auto y exportarlas en un único PDF multipágina sin marcas de agua.
+              </dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-white">
+                ¿Sirve para escanear cédulas o DNI por ambas caras en una hoja?
+              </dt>
+              <dd class="mt-0.5 leading-relaxed">
+                Sí. Activa la opción «Modo Cédula / DNI (2 caras en 1 hoja)» en el panel de
+                exportación PDF y también puedes limitar el peso máximo a 500 KB, 1 MB o 2 MB para
+                trámites oficiales.
+              </dd>
+            </div>
+          </dl>
+        </section>
+
         <nav class="flex flex-wrap gap-3 text-sm text-indigo-400">
           <a href="/">Inicio</a>
           <a href="/firmar-pdf-gratis">Firmar PDF Gratis</a>
           <a href="/foto-a-word">Convertir Foto a Word y OCR</a>
           <a href="/alternativa-camscanner">Alternativa a CamScanner</a>
         </nav>
+
+        <noscript>
+          <p class="text-amber-400 font-medium">
+            Activa JavaScript en tu navegador para utilizar el escáner interactivo de documentos.
+          </p>
+        </noscript>
       </main>
     </div>
     <script type="module" src="/src/main.tsx"></script>

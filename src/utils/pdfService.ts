@@ -1,4 +1,4 @@
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { PDFDocument, StandardFonts, rgb, type PDFFont } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
 import type { PDFDocumentProxy } from 'pdfjs-dist';
 import type { PdfAnnotation, PdfPageSize, ScannedPage } from '../types/document';
@@ -222,6 +222,64 @@ export async function generatePdfThumbnail(bytes: ArrayBuffer): Promise<string> 
   }
 }
 
+function canEncodeWithFont(font: PDFFont, text: string): boolean {
+  try {
+    font.encodeText(text);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function sanitizeForFont(font: PDFFont, text: string): string {
+  const supported = new Set(font.getCharacterSet());
+  return Array.from(text)
+    .map((ch) => {
+      const cp = ch.codePointAt(0);
+      return cp !== undefined && supported.has(cp) ? ch : '?';
+    })
+    .join('');
+}
+
+function renderTextToPngDataUrl(
+  text: string,
+  fontSize: number,
+  color?: string
+): { dataUrl: string; widthPt: number; heightPt: number } | null {
+  if (typeof document === 'undefined') return null;
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+
+  const scale = 3;
+  const scaledFontSize = fontSize * scale;
+  const fontSpec = `700 ${scaledFontSize}px "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif`;
+
+  ctx.font = fontSpec;
+  const metrics = ctx.measureText(text);
+  const padX = 4 * scale;
+  const padY = Math.ceil(scaledFontSize * 0.25);
+  const canvasW = Math.max(1, Math.ceil(metrics.width + padX * 2));
+  const canvasH = Math.max(1, Math.ceil(scaledFontSize + padY * 2));
+
+  canvas.width = canvasW;
+  canvas.height = canvasH;
+
+  // Setting canvas dimensions resets 2D context state; re-apply font & style.
+  ctx.clearRect(0, 0, canvasW, canvasH);
+  ctx.font = fontSpec;
+  ctx.fillStyle = color ?? '#0f172a';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, padX, canvasH / 2);
+
+  return {
+    dataUrl: canvas.toDataURL('image/png'),
+    widthPt: canvasW / scale,
+    heightPt: canvasH / scale,
+  };
+}
+
 /**
  * Flattens signatures, dates, and text annotations onto the uploaded PDF.
  */
@@ -262,14 +320,44 @@ export async function exportSignedPdf(
       });
     } else if ((ann.type === 'text' || ann.type === 'date') && ann.text) {
       const fontSize = Math.max(8, Math.min(36, boxH * 0.58));
-      const textY = pdfY + (boxH - fontSize) / 2 + fontSize * 0.15;
-      page.drawText(ann.text, {
-        x: pdfX + 4,
-        y: textY,
-        size: fontSize,
-        font,
-        color: parseHexColor(ann.color),
-      });
+
+      if (canEncodeWithFont(font, ann.text)) {
+        const textY = pdfY + (boxH - fontSize) / 2 + fontSize * 0.15;
+        page.drawText(ann.text, {
+          x: pdfX + 4,
+          y: textY,
+          size: fontSize,
+          font,
+          color: parseHexColor(ann.color),
+        });
+      } else {
+        const rendered = renderTextToPngDataUrl(ann.text, fontSize, ann.color);
+        if (rendered) {
+          let embedded = imageCache.get(rendered.dataUrl);
+          if (!embedded) {
+            const pngBytes = dataUrlToUint8Array(rendered.dataUrl);
+            embedded = await pdfDoc.embedPng(pngBytes);
+            imageCache.set(rendered.dataUrl, embedded);
+          }
+          page.drawImage(embedded, {
+            x: pdfX + 4,
+            y: pdfY + (boxH - rendered.heightPt) / 2,
+            width: rendered.widthPt,
+            height: rendered.heightPt,
+          });
+        } else {
+          // Safe fallback when DOM/Canvas is unavailable
+          const safeText = sanitizeForFont(font, ann.text);
+          const textY = pdfY + (boxH - fontSize) / 2 + fontSize * 0.15;
+          page.drawText(safeText, {
+            x: pdfX + 4,
+            y: textY,
+            size: fontSize,
+            font,
+            color: parseHexColor(ann.color),
+          });
+        }
+      }
     }
   }
 
