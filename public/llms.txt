@@ -1,26 +1,18 @@
 # DocuScan & Sign
 
-> Escáner de documentos inteligente y firmador de PDF gratuito, 100% local, privado y offline (Web, PWA, Android e iOS). Procesa imágenes y firma archivos PDF directamente en el dispositivo sin subir ningún documento a servidores externos.
+> Escáner de documentos inteligente, OCR y firmador de PDF gratuito, 100% local, privado y offline en navegador y dispositivo móvil sin subir archivos a servidores externos.
 
-DocuScan & Sign es una alternativa gratuita, sin marcas de agua y centrada en la privacidad frente a escáneres en la nube como CamScanner, Adobe Scan o herramientas web que suben contratos y documentos de identidad a terceros.
+DocuScan & Sign procesa imágenes con detección de bordes Sobel, homografía 3x3, filtros de mejora, exportación a PDF/DOCX/JPG/PNG y firma de documentos PDF directamente en el cliente.
 
-## Funcionalidades principales
+## Herramientas Web
 
-- **Escáner de documentos con cámara o galería**: Detección automática de bordes (gradiente Sobel) y corrección de perspectiva mediante transformación homográfica 3x3.
-- **Filtros de mejora de imagen**: Magic Color (elimina sombras y blanquea el fondo conservando sellos y firmas), Blanco y Negro adaptativo (alto contraste para texto), Escala de Grises y Original.
-- **Exportación multiformato sin publicidad**: Reordena, rota 90° y exporta documentos en **PDF** (A4, Carta o Ajuste Automático), **Word (.docx)**, **JPG**, **PNG** (con empaquetado ZIP automático en multipágina) o **HTML imprimible**.
-- **Firmador de PDF 100% local**: Sube cualquier PDF o firma documentos recién escaneados. Soporta firma dibujada a mano (curvas Bézier suavizadas), firma tipográfica y firma desde imagen (con eliminación automática de fondo blanco).
-- **Anotaciones y fechas**: Inserta texto, fechas y múltiples firmas redimensionables en cualquier página del PDF.
-- **Bóveda offline (IndexedDB)**: Guarda documentos escaneados y firmados en el navegador o dispositivo para acceder sin conexión a internet.
+- [Escáner y Firmador PDF](https://escaner-mobile.pages.dev/): Aplicación web principal con escáner documental, OCR local, firmador de PDF y bóveda offline en IndexedDB.
+- [Escáner de Documentos Online](https://escaner-mobile.pages.dev/escaner-documentos): Escanea recibos, contratos y carnés desde cámara o galería con recorte automático.
+- [Firmar PDF Gratis Sin Subir Archivos](https://escaner-mobile.pages.dev/firmar-pdf-gratis): Inserta firma dibujada, tipográfica o desde imagen, fechas y texto sobre cualquier PDF local.
+- [Foto a Word Editable con OCR](https://escaner-mobile.pages.dev/foto-a-word): Convierte fotos de documentos en texto editable `.docx` mediante OCR local en navegador.
+- [Alternativa Privada a CamScanner](https://escaner-mobile.pages.dev/alternativa-camscanner): Comparativa de escaneo sin marcas de agua, sin suscripciones ni telemetría en la nube.
 
-## Privacidad y arquitectura
+## Documentación e Indexación
 
-- **Cero servidores y cero telemetría**: Todo el procesamiento de imagen (Canvas 2D) y generación/estampado de PDF (`pdf-lib`, `pdfjs-dist`) se ejecuta localmente en el navegador o app nativa (Capacitor 7).
-- **Idioma principal**: Español (`es`).
-- **Precio**: Gratis, sin suscripciones ni marcas de agua.
-
-## Recursos para agentes e indexadores
-
-- [Aplicación web principal](https://escaner-mobile.pages.dev/): Interfaz completa de escáner, firmador de PDF y bóveda local.
-- [Documentación completa para LLMs](https://escaner-mobile.pages.dev/llms-full.txt): Especificaciones técnicas, tabla comparativa, guía paso a paso y preguntas frecuentes detalladas.
-- [Sitemap XML](https://escaner-mobile.pages.dev/sitemap.xml): Mapa del sitio para buscadores.
+- [Documentación completa para LLMs](https://escaner-mobile.pages.dev/llms-full.txt): Especificaciones técnicas detalladas, arquitectura offline y preguntas frecuentes.
+- [Sitemap XML](https://escaner-mobile.pages.dev/sitemap.xml): Mapa completo del sitio.
